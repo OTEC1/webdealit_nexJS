@@ -89,13 +89,13 @@ const Register = () => {
 
     return(
                 <Container>
-                        <Section class="screen">
+                        <Section className="screen">
                             <Content>
                               <Screencontent>
                                     <Login>
                                         <Loginfield>
                                             <RiMailLine id='mail' size={20}  color='#6A679E'/>
-                                            <input type="text" class="login__input" placeholder="Username / Email"   value={email}  onChange={(e) => setEmail(e.target.value)}/>
+                                            <input type="text" className="login__input" placeholder="Username / Email"   value={email}  onChange={(e) => setEmail(e.target.value)}/>
                                         </Loginfield>
 
  
@@ -103,14 +103,14 @@ const Register = () => {
 
                                         <Loginfield>
                                             <RiLockPasswordLine id='mail' size={20}  color='#6A679E'/>
-                                            <input type="password" class="login__input" placeholder="Password"  id='password'/>
+                                            <input type="password" className="login__input" placeholder="Password"  id='password'/>
                                             <RiEye2Line  id='Eye'  onClick={Viewpass} size={20}  color='#000' />
                                         </Loginfield>
 
 
                                         <Loginfield>
                                             <RiLockPasswordLine id='pass' size={20}  color='#6A679E'/>
-                                            <input type="password" class="login__input" placeholder="Confirm password"  id='password2' />
+                                            <input type="password" className="login__input" placeholder="Confirm password"  id='password2' />
                                             <RiEye2Line  id='Eye'  onClick={Viewpass2} size={20}  color='#000' />
                                         </Loginfield>
                                         <button  onClick={authdata}>
@@ -137,10 +137,10 @@ const Register = () => {
 
 
                                 <Screenbackground>
-                                    <span class="screen__background__shape screen__background__shape4"></span>
-                                    <span class="screen__background__shape screen__background__shape3"></span>		
-                                    <span class="screen__background__shape screen__background__shape2"></span>
-                                    <span class="screen__background__shape screen__background__shape1"></span>
+                                    <span className="screen__background__shape screen__background__shape4"></span>
+                                    <span className="screen__background__shape screen__background__shape3"></span>		
+                                    <span className="screen__background__shape screen__background__shape2"></span>
+                                    <span className="screen__background__shape screen__background__shape1"></span>
                                 </Screenbackground>
                               </Content>
                         </Section>

@@ -6,7 +6,7 @@ import {CloudinaryContext, Image, Transformation} from 'cloudinary-react'
 import  {MobileView, BrowserView}  from 'react-device-detect';
 import Footer from './Footer';
 import { useRouter } from 'next/router';
-
+import Link from 'next/link'
 
 
 const Bottom = (props) => {
@@ -19,7 +19,7 @@ const Bottom = (props) => {
         if(props.data.length > 0){     
            setlist(props.data);
         }
-    },[])
+    },[props.data])
 
 
 
@@ -42,7 +42,6 @@ const Bottom = (props) => {
         sessionStorage.setItem("date_time",x.date_time);
         sessionStorage.setItem("likes",x.likes);
         sessionStorage.setItem("title",x.title);
-        history.push(`/Explorecontent?frame=${frame}&useremail=${useremail}&views=${views}&caller=${caller}&doc_id_b=${x.doc_id_b}`)
         
       }
   
@@ -59,21 +58,20 @@ const Bottom = (props) => {
                                     <Image  alt={v.UserPost.title}   width="100%" publicId={v.UserPost.cloudinaryPub}/>
                             </CloudinaryContext>
                     </BrowserView>
-
-
-                        <MobileView>
+                    <MobileView>
                                 <CloudinaryContext cloudName="otecdealings">
                                         <Image  alt={v.UserPost.title}     width="100%" publicId={v.UserPost.cloudinaryPub}>
                                             <Transformation  angle={v.UserPost.exifData} />
                                         </Image>
                                 </CloudinaryContext>
-                        </MobileView>
+                     </MobileView>
                         
-                        
-                        
+                     <Link href={`/Read/`+v.UserPost.title.replace(/ /g,'+')}>   
                         <div id='writeUp' onClick={(e)=>  navigates({frame:"Pictureframe",useremail:v.User.useremail, doc_id_a:v.UserPost.doc_id_a, doc_id_b:v.UserPost.doc_id_b, title:v.UserPost.title, cloudinaryPub: v.UserPost.cloudinaryPub, exifData: v.UserPost.exifData, media: v.UserPost.image, writeup: v.UserPost.writeup, date_time: v.UserPost.date_time, likes:v.UserPost.likes, views:v.UserPost.views})}>
                             {v.UserPost.writeup.length > 100 ? v.UserPost.writeup.substring(0,100)+" ... Read more" : v.UserPost.writeup }
                         </div>
+                     </Link>
+                
                 </CardShow>
                 : v.UserPost.video ?
 
@@ -83,8 +81,6 @@ const Bottom = (props) => {
                                         <Image  alt={v.UserPost.title}     width="100%" publicId={v.UserPost.cloudinaryPub}/>
                                 </CloudinaryContext>
                         </BrowserView>
-
-
                         <MobileView>
                                 <CloudinaryContext cloudName="otecdealings">
                                         <Image  alt={v.UserPost.title}   height="300px"   width="100%" publicId={v.UserPost.cloudinaryPub}>
@@ -93,19 +89,25 @@ const Bottom = (props) => {
                                 </CloudinaryContext>
                         </MobileView>
                         
-                        
-                        <div id='writeUp' onClick={(e)=>  navigates({frame:"Videoframe",useremail:v.User.useremail, doc_id_a:v.UserPost.doc_id_a, doc_id_b:v.UserPost.doc_id_b, title:v.UserPost.title, cloudinaryPub: v.UserPost.cloudinaryPub, exifData: v.UserPost.exifData, media: v.UserPost.video, writeup: v.UserPost.writeup, date_time: v.UserPost.date_time, likes:v.UserPost.likes,views:v.UserPost.views})}>
-                            {v.UserPost.writeup.length > 100 ? v.UserPost.writeup.substring(0,100)+" ... Read more" : v.UserPost.writeup }
-                        </div>
+                        <Link href={`/Read/`+v.UserPost.title.replace(/ /g,'+')}>
+                            <div id='writeUp' onClick={(e)=>  navigates({frame:"Videoframe",useremail:v.User.useremail, doc_id_a:v.UserPost.doc_id_a, doc_id_b:v.UserPost.doc_id_b, title:v.UserPost.title, cloudinaryPub: v.UserPost.cloudinaryPub, exifData: v.UserPost.exifData, media: v.UserPost.video, writeup: v.UserPost.writeup, date_time: v.UserPost.date_time, likes:v.UserPost.likes,views:v.UserPost.views})}>
+                                {v.UserPost.writeup.length > 100 ? v.UserPost.writeup.substring(0,100)+" ... Read more" : v.UserPost.writeup }
+                            </div>
+                        </Link>
+
                 </CardShow>
 
                 : v.UserPost.youtubeLink ?
 
                 <CardShow>
                 <ReactPlayer alt={v.UserPost.title}  url={v.UserPost.youtubeLink}  controls width="100%" height="50%"/>
-                <div  id='writeUp' onClick={(e)=>  navigates({frame:"Playerframe",useremail:v.User.useremail, doc_id_a:v.UserPost.doc_id_a, doc_id_b:v.UserPost.doc_id_b, title:v.UserPost.title, cloudinaryPub: v.UserPost.cloudinaryPub, exifData: v.UserPost.exifData, media: v.UserPost.youtubeLink, writeup: v.UserPost.writeup, date_time: v.UserPost.date_time, likes:v.UserPost.likes, views:v.UserPost.views})}>
-                    {v.UserPost.writeup.length > 100 ? v.UserPost.writeup.substring(0,100)+" ... Read more" : v.UserPost.writeup }
-                </div>
+              
+                <Link href={`/Read/`+v.UserPost.title.replace(/ /g,'+')}>
+                    <div  id='writeUp' onClick={(e)=>  navigates({frame:"Playerframe",useremail:v.User.useremail, doc_id_a:v.UserPost.doc_id_a, doc_id_b:v.UserPost.doc_id_b, title:v.UserPost.title, cloudinaryPub: v.UserPost.cloudinaryPub, exifData: v.UserPost.exifData, media: v.UserPost.youtubeLink, writeup: v.UserPost.writeup, date_time: v.UserPost.date_time, likes:v.UserPost.likes, views:v.UserPost.views})}>
+                        {v.UserPost.writeup.length > 100 ? v.UserPost.writeup.substring(0,100)+" ... Read more" : v.UserPost.writeup }
+                    </div>
+                 </Link>
+
                 </CardShow>
                 :<p></p>
                 )}

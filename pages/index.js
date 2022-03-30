@@ -12,6 +12,7 @@ import {RiAmazonLine, RiBitCoinLine, RiCoinLine, RiPlug2Line, RiStore2Line} from
 import {BiCreditCard} from 'react-icons/bi'
 import {FaSyncAlt} from 'react-icons/fa'
 import  Head from 'next/head';
+import {useRouter}  from 'next/router'
 
 
 
@@ -27,8 +28,7 @@ export const getStaticProps  = async() =>{
 
 
 const  Home = ({list_got,navs}) =>{
-  
-  
+    const history = useRouter();
     const [L1, setL1] = useState([]);
     const [L2, setL2] = useState([]);
     const [L3, setL3] = useState([]);
@@ -42,14 +42,15 @@ const  Home = ({list_got,navs}) =>{
             
     useEffect(() => {
      format(list_got);
-     setL3(navs)
+     setL3(navs);
+     history.push(window.location.href);
     },[])
 
     
     return(
              <>
                <Head>
-                    <title>webfly.click</title>
+                    <title>Webfly.click</title>
                     <meta name="description" content={`webflyblog produces content on healthy life tips, crypto market news also downlaod action & romantic movies and trending music.`} />
                     <meta property="og:title" content={`webfly.click`} />
                     <meta property="og:description" content={`webflyblog produces content on healthy life tips, crypto market news also downlaod action & romantic movies and trending music.`} />
@@ -67,7 +68,7 @@ const  Home = ({list_got,navs}) =>{
                     <AdRunner>
                         <Marquee speed={100} gradient={false}>
                           {L3.map((v,i) => 
-                          <Link href={`/ETH?e=${v}"`}>
+                          <Link key={i} href={`/ETH?e=${v}`}>
                             <Contains >
                             <FaSyncAlt/> &nbsp; {v} 
                             </Contains>
@@ -84,7 +85,7 @@ const  Home = ({list_got,navs}) =>{
                         <div  id="loader">
                         <Load/>
                         </div>
-                    )}
+                      )}
                  </Contain>
                  <Ad/>  
                 </Container> 

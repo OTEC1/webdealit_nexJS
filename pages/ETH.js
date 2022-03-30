@@ -5,25 +5,27 @@ import Header from './Header'
 import Ad from './Ad'
 import {RiAlbumLine, RiContactsBook2Line, RiDownloadCloudLine, RiHeadphoneLine, RiMenu2Line, RiPlayList2Line, RiSortDesc, RiSpeaker2Line, RiUpload2Line} from 'react-icons/ri'
 import Musicplayer from './Musicplayer'
-import  {MobileView, BrowserView}  from 'react-device-detect';
+import {MobileView, BrowserView}  from 'react-device-detect';
 import Load from './Load'
 import TwoTone from './TwoTone'
-import { useParams ,useNavigate} from 'react-router-dom'
+import { useRouter} from 'next/router'
 import {updatePostlikes} from '../actions'
+import Footer from './Footer'
 
 
 
  const ETH = (props) => {
 
-    const {mode} = useParams();
-    const history = useNavigate();
-    document.title = "Webfly "+mode;
+    
+    const history = useRouter();
+    const ep = history.query;
 
-
+    
+ 
     const [music, setMusic] = useState([]);
     const [errand, setErrand] = useState('');
     const [showPlayermodel, setshowPlayermodel] = useState("close");
-    const [pageErrand,setpageErrand] = useState({title:"",cloud:"",date_time:"",doc_id_a:"",musicThumb:"",doc_id:"",doc_id_b:"",cloudinaryPub:"",exifData:"",writeup:"", likes:"", frame:"",useremail:"", media:""})
+    const [pageErrand,setpageErrand] = useState({title:"",cloud:"",date_time:"",doc_id_a:"",musicThumb:"",doc_id:"",doc_id_b:"",cloudinaryPub:"",exifData:"",writeup:"", likes:"", frame:"",useremail:"", media:"",views:""})
    
 
 
@@ -46,17 +48,14 @@ import {updatePostlikes} from '../actions'
         sessionStorage.setItem("date_time",x.date_time);
         sessionStorage.setItem("likes",x.likes);
         sessionStorage.setItem("title",x.title);
-        history('/explorecontent/'+frame+"/"+useremail+"/"+views+"/"+caller+"/"+x.doc_id_b)
+        history.push(`/Explorecontent?frame=${frame}&useremail=${x.useremail}&views=${x.views}&caller=${"o"}&doc_id_b=${x.doc_id_b}`)
+    
     }
 
 
 
-
-
-
-
     useEffect(() => {
-        axios.post(process.env.REACT_APP_GET_BY_ORIENTATION, {UserPost:{orientations:mode}})
+        axios.post(process.env.NEXT_PUBLIC_GET_BY_ORIENTATION, {UserPost:{orientations:ep.e}})
         .then(res => {
             setMusic(res.data.message);
             mapping(res.data.message);
@@ -64,11 +63,9 @@ import {updatePostlikes} from '../actions'
             console.log(err);
         })
 
-    },[])
+    },[ep.e])
 
   
-
-
     function mapping(blob){
         sessionStorage.setItem("crypto",  JSON.stringify(blob));
     }
@@ -77,16 +74,16 @@ import {updatePostlikes} from '../actions'
      return  datas = datas.charAt(0).toUpperCase() + datas.slice(1); 
     }
 
-    
 
     return (
         <>
+                <Header/>
                 <TwoTone/>
                 <Container>
                     <MusicBanner>
                         <TopMostPart>
                                 <h1>
-                                  {mode}
+                                  {ep.e}
                                 </h1>
                             
                         </TopMostPart>
@@ -94,16 +91,17 @@ import {updatePostlikes} from '../actions'
                         <SecondTopMost>
                             ADVERTISMENT
                         </SecondTopMost>
-
   
                          <MusicMedias>
                             {music.length> 0 ? (
                                  music.map((v,i) => 
-                                    <MusicGlide  onClick={(e) => PopUpPlayer(e,{title:v.UserPost.title, cloud:v.UserPost.cloudinaryPub,  date_time:v.UserPost.date_time,  doc_id_a:v.UserPost.doc_id_a, 
+                                    <MusicGlide  key={i} onClick={(e) => PopUpPlayer(e,{title:v.UserPost.title, cloud:v.UserPost.cloudinaryPub,  date_time:v.UserPost.date_time,  doc_id_a:v.UserPost.doc_id_a, 
                                         doc_id_b:v.UserPost.doc_id_b,  cloudinaryPub:v.UserPost.cloudinaryPub,  exifData:v.UserPost.exifData, 
-                                        writeup:v.UserPost.writeup, likes:v.UserPost.likes, frame:"Pictureframe",useremail:v.User.useremail,media:v.UserPost.image})}>
-
-                                         <img src={process.env.REACT_APP_APP_S3_IMAGE_BUCKET+v.UserPost.image}/>
+                                        writeup:v.UserPost.writeup, likes:v.UserPost.likes, frame:"Pictureframe",useremail:v.User.useremail, media:v.UserPost.image,
+                                        views:v.UserPost.views})}>
+                                        
+                                        <img src={process.env.NEXT_PUBLIC_APP_S3_IMAGE_BUCKET+v.UserPost.image}/>
+                                         
                                           <BrowserView>
                                               <h4>{v.UserPost.writeup.length > 13 ? formation(v.UserPost.writeup.substring(0, i==0 ? 120 : 70))+"...Read more" : formation(v.UserPost.writeup) }</h4>
                                           </BrowserView>
@@ -111,8 +109,6 @@ import {updatePostlikes} from '../actions'
                                           <MobileView>
                                               <h4>{v.UserPost.writeup.length > 10 ? formation(v.UserPost.writeup.substring(0,i==0 ? 90 : 50))+"...Read more" : formation(v.UserPost.writeup)}</h4>
                                           </MobileView>
-                                           
-                                          
                                       </MusicGlide>
                                     )
                                    ):(
@@ -124,7 +120,8 @@ import {updatePostlikes} from '../actions'
 
                     </MusicBanner>
                     
-                </Container>      
+                </Container>    
+                <Footer/>  
         </>
     )
  }
@@ -224,6 +221,7 @@ display: inline-block;
 overflow-y:scroll;
 
 
+
 ::-webkit-scrollbar {
  display:none;
 }
@@ -232,12 +230,14 @@ overflow-y:scroll;
 width: 56.5%;
 height: 300px;
 margin:5px;
-
 img{
 clip-path: none;
 border-radius:7px;
 }
-
+div{
+height:280px;
+margin-top:22px;
+}
 }
 
 
@@ -257,15 +257,12 @@ width: 90%;
 const MusicGlide = styled.div`
 width: 300px;
 height: 300px;
-margin:5px;
+margin-top:5px;
 text-align:center;
 display: inline-block;
 font-family: "Poppins", sans-serif;
 background: #f5f5f5;
 border-radius:10px;
-
-
-
 
 img{
 width: 100%;

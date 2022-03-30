@@ -6,7 +6,7 @@ import Ad from './Ad'
 import Head from 'next/head'
 import {RiAlbumLine, RiContactsBook2Line, RiDownload2Line, RiDownloadCloudLine, RiHeadphoneLine, RiMenu2Line, RiPlayLine, RiPlayList2Line, RiShareLine, RiSortDesc, RiSpeaker2Line, RiUpload2Line} from 'react-icons/ri'
 import Musicplayer from './Musicplayer'
-import  {MobileView, BrowserView}  from 'react-device-detect';
+import {MobileView, BrowserView}  from 'react-device-detect';
 import Load from './Load'
 import TwoTone from './TwoTone'
 import {useLocation} from 'react-router-dom'
@@ -28,17 +28,8 @@ import {FacebookShareButton,TwitterShareButton,WhatsappShareButton,FacebookIcon,
     const [showPlayermodel, setshowPlayermodel] = useState("close");
     const [pageErrand, setpageErrand] = useState({musicArtist:"",musicTitle:"",musicUrl:"",musicVideoUrl:"",musicThumb:"",doc_id:"",promoIncentive:""})
     let musiclist = [];
-    useEffect( async() => {  
-         
-        if(FontEndDB(1,base.M).length<=0)
-                FontEndDB(2,base.M);
-
-        //console.log(musiclist);
-
-        setMusic(musiclist[0]);
-        setmus(musiclist);
-
-        
+    useEffect(() => {           
+        FontEndDB(1,base.M);
     },[route]);
 
     const PopUpPlayer  = (e,v) => {
@@ -56,19 +47,24 @@ import {FacebookShareButton,TwitterShareButton,WhatsappShareButton,FacebookIcon,
         }
     }    
     
+   
 
-    function FontEndDB(index,value){
+    async function FontEndDB(index,value){
+        const res = await axios.request(process.env.NEXT_PUBLIC_GET_SONGS)
+        const data = await res.data;
+        console.log(data);
+        data.message.map((v,i) => {
 
-        JSON.parse(sessionStorage.getItem("musiclist")).map((v,i) => {
-            if(index == 1){
                if(v.Music.music_artist == base.M)
                    musiclist.push(v);
-            }else{
+
                 if(v.Music.music_title == base.M)
                    musiclist.push(v);
-            }
-        })
-        return musiclist
+        }); 
+
+        setMusic(musiclist[0]);
+        setmus(musiclist);
+
     }
 
 
@@ -99,7 +95,7 @@ import {FacebookShareButton,TwitterShareButton,WhatsappShareButton,FacebookIcon,
     return (
         <>
            <Head>
-               {music ?
+           {music ?
                <>
                 <title>Search result: {music.Music.music_title} By {music.Music.music_artist}</title>
                 <meta name="description" content={`Downlaod ${music.Music.music_title} by {music.Music.music_artist} @ webfly.click`} />
@@ -332,7 +328,7 @@ import {FacebookShareButton,TwitterShareButton,WhatsappShareButton,FacebookIcon,
                                             <MusicMedias>
                                                     {mus.length> 0 ? (
                                                         mus.map((v,i) => 
-                                                            <MusicGlide>
+                                                            <MusicGlide key={i}>
                                                                 
                                                                 <img   onClick={(e) => PopUpPlayer(e,setpageErrand({musicTitle:v.Music.music_title, musicThumb:v.Music.music_thumbnail, musicArtist:v.Music.music_artist, musicVideoUrl:v.Music.music_video, musicUrl:v.Music.music_url, doc_id: v.Music.doc_id,promoIncentive:"https://"}))} src={process.env.NEXT_PUBLIC_BASE_URL+v.Music.music_thumbnail}/>
                                                                 

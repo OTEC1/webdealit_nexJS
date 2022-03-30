@@ -20,6 +20,7 @@ const  Header = (props) => {
       
 
     useEffect(() => {
+
            if(sessionStorage.getItem("visitCount") === null) {
                 sessionStorage.setItem("visitCount","visited");  
                 UPDATE();
@@ -31,11 +32,13 @@ const  Header = (props) => {
 
             if(props.user){
                 sessionStorage.setItem("SignInUser",props.user.User ? JSON.stringify(props.user) : "")
-                setAuthen("Logout")
+                setAuthen("Logout");
             }
-
+            
+           
     },[])
 
+    
 
     
     const SortDiv = () => {
@@ -59,9 +62,9 @@ const  Header = (props) => {
 
 
     function UPDATE(){
-        axios.post(process.env.REACT_APP_UPDATE_VISIT_COUNT,{count:1})
+        axios.post(process.env.NEXT_PUBLIC_UPDATE_VISIT_COUNT,{count:1})
         .then(res => {
-            console.log(res.data.message,"Here")
+            console.log(res.data.message,"Visted")
         }).catch(err => {
             console.log(err);
         })         
@@ -126,6 +129,10 @@ const  Header = (props) => {
         window.scrollTo(0,0);
     }
   
+
+    //console.log(props.user);
+
+    
     
 
     return (
@@ -240,7 +247,7 @@ const  Header = (props) => {
             <Content>
                    <Link href="/">
                      <Webdealit onClick={homeNav}>
-                        <img src="/images/webfly_logo.png"/>
+                        <img alt='webfly logo' src="/images/webfly_logo.png"/>
                          Webfly
                         </Webdealit>
                     </Link>

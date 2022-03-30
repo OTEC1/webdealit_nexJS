@@ -205,9 +205,9 @@ export const  getStaticProps = async() => {
                         <MusicMedias>
                             {music.length> 0 ? (
                                  music.map((v,i) => 
-                                    <MusicGlide>
+                                    <MusicGlide  key={i}>
                                          <img 
-                                           onClick={(e) => PopUpPlayer(e,setpageErrand({musicTitle:v.Music.music_title, musicThumb:v.Music.music_thumbnail, musicArtist:v.Music.music_artist, musicVideoUrl:v.Music.music_video, musicUrl:v.Music.music_url,doc_id_b:v.Music.doc_id, promoIncentive:"https://"}))} 
+                                           onClick={(e) => { PopUpPlayer(e); setpageErrand({musicTitle:v.Music.music_title, musicThumb:v.Music.music_thumbnail, musicArtist:v.Music.music_artist, musicVideoUrl:v.Music.music_video, musicUrl:v.Music.music_url,doc_id_b:v.Music.doc_id, promoIncentive:"https://"}) }}
                                            src={process.env.NEXT_PUBLIC_BASE_URL+v.Music.music_thumbnail}/>
                                         
                                           <BrowserView>

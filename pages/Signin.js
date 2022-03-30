@@ -2,9 +2,9 @@ import { RiArrowRightFill, RiArrowRightSLine, RiEye2Line, RiFacebookBoxLine, RiG
 import {connect} from 'react-redux'
 import { CustomSignIn, signInAPIGoogle,handleError,signInfacebookApi} from '../actions';
 import styled from 'styled-components'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import swal from 'sweetalert2'
-import {Navigate, Redirect} from "react-router"
+import {useRouter} from 'next/router'
 import  axios  from 'axios';
 import Loader from 'react-loader-spinner';
 import FacebookProvider, {Login} from 'react-facebook-sdk'
@@ -16,7 +16,7 @@ import Link from 'next/link'
 
 const Signin = (props) => {
 
-    
+    const route = useRouter();
 
     const Viewpass = () => {
         const pass2 = document.querySelector('#password');
@@ -38,26 +38,25 @@ const Signin = (props) => {
     const CreateAccount =()=>{
     }
 
- 
-    
     function handleResponse(data){
-     window.sessionStorage.setItem("fbuser",JSON.stringify(data));
-     if(data && !props.user){ 
+        window.sessionStorage.setItem("fbuser",JSON.stringify(data));
+       if(data && !props.user){ 
         signInfacebookApi(data);
-        <Link href="/"/> 
+        router.push("/"); 
      }
     }
     
-   
-    function Redirect(){
-       
+     
+    const Redirect = () =>{
+        route.push("/");
     }
 
-    console.log(process.env.APP_ID)
+  
+
 
     return(
                <Container>
-                   {props.user &&  Redirect()}
+                   {props.user && Redirect() }
                         <Section className="screen">
                             <Content>
                               <Screencontent>
@@ -83,7 +82,7 @@ const Signin = (props) => {
 
                                         <Carries>
                                             <Link href="/Register">
-                                               <a onClick={CreateAccount}>Don't have an account ? Create  account</a>	
+                                               <a onClick={CreateAccount}>Dont have an account ? Create  account</a>	
                                             </Link>
                                             <br/>	
                                             <a onClick={ForgotPass}>Forgot Password</a>	
@@ -362,8 +361,7 @@ const mapStateToProps = (state) => {
 
 
 const mapDispatchToprops = dispatch => ({
-    
-    Login: (e) => e === 1 ? dispatch(CustomSignIn()) : dispatch(signInAPIGoogle()),
+    Login: (e) => {e == 1 ? dispatch(CustomSignIn()) : dispatch(signInAPIGoogle())},
 });
 export default connect(mapStateToProps,mapDispatchToprops)(Signin);
 

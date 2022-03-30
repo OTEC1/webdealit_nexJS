@@ -50,7 +50,7 @@ export function signInfacebookApi(m){
 export function signInAPIGoogle(){
     return(dispatch) => {
         signInWithPopup(auth,provider)
-        .then((paid) => {
+          .then((paid) => {
             dispatch(setUser(paid.user))
         })
         .catch((err) => alert(err.message))

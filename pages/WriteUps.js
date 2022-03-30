@@ -6,9 +6,11 @@ import InstagramEmbed from 'react-instagram-embed';
 import ReactHtmlParser  from 'html-react-parser'
 import ShareDialog from './ShareDialog'
 import axios from "axios";
+import { useRouter } from "next/router";
 import {CloudinaryContext, Image, Transformation} from 'cloudinary-react'
 import  {MobileView, BrowserView}  from 'react-device-detect';
 import { updatePostlikes } from "../actions";
+import { connect } from "react-redux";
 
 
 
@@ -17,10 +19,9 @@ import { updatePostlikes } from "../actions";
 
 const WriteUp = (props) => {
 
-    let length = props.writeup.length;
     const [showModel, setShowModel] = useState("close");
     const [list, setList]= useState([]);
-    let history = "";
+    let history = useRouter();
 
 
 
@@ -45,13 +46,15 @@ const WriteUp = (props) => {
 
 
     useEffect(() => {
-        axios.get(process.env.REACT_APP_GET_ALL_POST)
+        axios.get(process.env.NEXT_PUBLIC_GET_ALL_POST)
         .then(res => {
             setList(res.data.message);
         }).catch(err => {
            console.log(err.message)
         });
     },[]);
+
+    
 
     const navigates = (x) =>{
         let frame = x.frame;
@@ -70,7 +73,7 @@ const WriteUp = (props) => {
         sessionStorage.setItem("date_time",x.date_time);
         sessionStorage.setItem("likes",x.likes);
         sessionStorage.setItem("title",x.title);
-        history('/explorecontent/'+frame+"/"+useremail+"/"+views+"/"+caller+"/"+x.doc_id_b)
+        history.push( `/Explorecontent?frame=${frame}&useremail=${x.useremail}&views=${x.views}&caller=${caller}&doc_id_b=${x.doc_id_b}`)
         window.scrollTo(0,0);
         
       }
@@ -101,10 +104,10 @@ const WriteUp = (props) => {
                    
                   </td>
               </tr> 
-
                 <tr>
                     <td> 
-                     {length > 100 && props.User ===  process.env.NEXT_PUBLIC_NOMAIL1 || props.User  === process.env.NEXT_PUBLIC_NOMAIL2 || props.User === process.env.NEXT_PUBLIC_NOMAIL3 ? 
+                    { props.writeup ? 
+                         props.User == process.env.NEXT_PUBLIC_NOMAIL1 || props.User  == process.env.NEXT_PUBLIC_NOMAIL2 || props.User == process.env.NEXT_PUBLIC_NOMAIL3  ? 
                                 <div>
                                     <pre>{ReactHtmlParser(props.writeup.substring(0, props.writeup.indexOf("&%")))} </pre>  
                                     <Ad> 
@@ -130,15 +133,15 @@ const WriteUp = (props) => {
                              <Ad>
                                ADVERTISMENT
                              </Ad>  
-                            <pre>{ReactHtmlParser(props.writeup)} </pre>  
+                             <pre>{ReactHtmlParser(props.writeup)} </pre>  
                            </div>
-                        }
+                        :""}
                     </td>
                 </tr>
           </table>   
          </Container>
       <Contain>
-      <ShareDialog showModel={showModel}  musicArtist={props.frame} musicTitle={props.title}  musicThumb={props.media.includes(".mp4") ?  process.env.REACT_APP_S3_VIDEO_SECTION+props.media :  process.env.REACT_APP_S3_PICTURE_SECTION+props.media}   doc_id_b={props.doc_id_b} section="p"  redirectUser={redirectUser}  mail={props.User}/> 
+      { props.writeup ? <ShareDialog showModel={showModel}  musicArtist={props.frame} musicTitle={props.title}  musicThumb={props.media.includes(".mp4") ?  process.env.REACT_APP_S3_VIDEO_SECTION+props.media :  process.env.REACT_APP_S3_PICTURE_SECTION+props.media}   doc_id_b={props.doc_id_b} section="p"  redirectUser={redirectUser}  mail={props.User}/>  : ""}
       </Contain>
 
             <MoreContent>
@@ -147,9 +150,9 @@ const WriteUp = (props) => {
                 </label>
                 <RelatedContent>
                         {list.map((v,i) =>
-                         v.UserPost.image  &&  v.UserPost.doc_id_a !== props.doc_id_a ?
+                           v.UserPost.image  &&  v.UserPost.doc_id_a !== props.doc_id_a ?
                             <MiniContainer   onClick={(e)=>  navigates({frame:"Pictureframe",useremail:v.User.useremail, doc_id_a:v.UserPost.doc_id_a, doc_id_b:v.UserPost.doc_id_b, title:v.UserPost.title, cloudinaryPub: v.UserPost.cloudinaryPub, exifData: v.UserPost.exifData, media: v.UserPost.image, writeup: v.UserPost.writeup, date_time: v.UserPost.date_time, likes:v.UserPost.likes, views:v.UserPost.views})}>
-                              <img  id="im" src={process.env.REACT_APP_APP_S3_IMAGE_BUCKET+v.UserPost.image}/>
+                              <img  id="im" src={process.env.NEXT_PUBLIC_APP_S3_IMAGE_BUCKET+v.UserPost.image}/>
                                 <MobileView>
                                 <div id="up">{v.UserPost.title}</div>
                                 <br/>
@@ -177,15 +180,13 @@ left:0;
 height: 100vh;
 width: 100%;
 display: flex;
+
 `;
 
 
 const Container = styled.div`
 text-align:left;
 display: flex;
-
-
-
 
 table{
 max-width:90%;
@@ -194,6 +195,7 @@ font-family: "Poppins", sans-serif;
 color: #f5f5f5;
 padding-bottom:100px;
 font-size:12pt;
+color:#ffffff;
 }
 
 
@@ -297,6 +299,7 @@ table{
 max-width:95%;
 width: 95%;
 font-size:14pt;
+
 }
     
 #startPin{
@@ -434,6 +437,12 @@ max-width:150px;
 `;
 
 
+const mapStateToProps = (state) => {
+    return{
+        user: state.userState.user,
+    }
+}
 
+const mapDispatchToProps = dispatch =>({})
 
-export default WriteUp;
+export default connect(mapStateToProps,mapDispatchToProps)(WriteUp);

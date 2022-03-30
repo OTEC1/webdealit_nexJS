@@ -11,12 +11,12 @@ import {CloudinaryContext, Image, Transformation} from 'cloudinary-react'
 import  {MobileView, BrowserView}  from 'react-device-detect';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import Images from './Images';
 
 
 
 const Explore  =  (props) => {
 
-   
 
     useEffect(()=>{
         window.scrollTo(0,0);
@@ -37,11 +37,10 @@ const Explore  =  (props) => {
 
 
     useEffect(() => {
-  
-    if(props.fbuser)
-        apicall(props.fbuser.tokenDetail.userID,props.fbuser.tokenDetail.accessToken)    
+     if(props.fbuser)
+         apicall(props.fbuser.tokenDetail.userID,props.fbuser.tokenDetail.accessToken)    
     
-    },[])
+    },[props.fbuser])
 
 
     
@@ -51,7 +50,6 @@ const Explore  =  (props) => {
         .then(res=>{
             console.log(res)
             permissoncheck(res.data.data)
-            console.log(res.data)
         }).catch(err =>{
                 console.log(err)
         })
@@ -68,10 +66,8 @@ const Explore  =  (props) => {
         <Container>
            <Content>
             {props.frame === "Pictureframe" ? (
-                                <div className='frame'>  
+                        <div className='frame'>  
                                    <div>  
-
-
                                        <div  id='soap'>
                                            <table>
                                                <tr>
@@ -87,29 +83,11 @@ const Explore  =  (props) => {
                                                </tr>
                                            </table>
                                        </div>
-
-                                    
-
-                                        <MobileView>
-                                            <CloudinaryContext cloudName="otecdealings">
-                                               <div>
-                                                <Image alt={props.title}  publicId={ sessionStorage.getItem("cloud") ?  sessionStorage.getItem("cloud") : props.cloud } width="100%"  height="100%">
-                                                    <Transformation  angle={props.exifData} />
-                                                </Image>
-                                               </div>
-                                            </CloudinaryContext> 
-                                        </MobileView>
-
-                                        
-                                        <BrowserView>
-                                            <CloudinaryContext cloudName="otecdealings">
-                                              <Image alt={props.title}  publicId={sessionStorage.getItem("cloud") ?  sessionStorage.getItem("cloud") : props.cloud } width="100%"  height="100%"/>
-                                            </CloudinaryContext> 
-                                        </BrowserView>
-
-                                        <WriteUp title={props.title}  date_time={props.date_time}  writeup={props.writeup} User={props.useremail}  views={props.views}  doc_id_b={props.doc_id_b} media={props.media}  frame={props.frame}   doc_id_a={props.doc_id_a}/>
+                                        <Images title={props.title} cloud={sessionStorage.getItem("cloud")} />
+                                        <WriteUp title={props.title}  date_time={props.date_time}  writeup={props.writeup}  views={props.views}  doc_id_b={props.doc_id_b} media={props.media}  frame={props.frame}   doc_id_a={props.doc_id_a}  User={props.useremail}/>
                                     </div>
                                 </div>  
+                                
                                 ):props.frame === "Videoframe" ? (
                                     <div className='frame'> 
                                      <div>
@@ -131,7 +109,7 @@ const Explore  =  (props) => {
                                         </div>
 
                                             <ReactPlayer  alt={props.title}   width="100%"  height="400px"  controls url={process.env.REACT_APP_APP_S3_VIDEO_BUCKET+props.media}  autoPlay />
-                                            <WriteUp title={props.title}  date_time={props.date_time}  writeup={props.writeup} User={props.useremail} views={props.views}  doc_id_b={props.doc_id_b}  media={props.media}  frame={props.frame}  doc_id_a={props.doc_id_a}/>
+                                            <WriteUp title={props.title}  date_time={props.date_time}  writeup={props.writeup}  views={props.views}  doc_id_b={props.doc_id_b}  media={props.media}  frame={props.frame}  doc_id_a={props.doc_id_a} User={props.useremail}/>
                                      </div>
                                     </div>
                                   ):props.frame === "Playerframe" ? (
@@ -154,7 +132,7 @@ const Explore  =  (props) => {
                                          </div>
 
                                         <ReactPlayer  alt={props.title}   width="100%"  height="400px" controls url={props.media}  autoPlay/>
-                                        <WriteUp title={props.title}  date_time={props.date_time}  writeup={props.writeup}  User={props.useremail}  views={props.views}   doc_id_b={props.doc_id_b}  media={props.media} frame={props.frame} doc_id_a={props.doc_id_a} />
+                                        <WriteUp title={props.title}  date_time={props.date_time}  writeup={props.writeup}  views={props.views}   doc_id_b={props.doc_id_b}  media={props.media} frame={props.frame} doc_id_a={props.doc_id_a} User={props.useremail} />
                                       </div>
                                     </div>
                                 ):(<p></p>)
@@ -185,11 +163,7 @@ margin:auto;
 margin-top:40px;
 padding-bottom:100px;
 
-img{
-height: 400px;
-width: 600px;
-object-fit:cover;
-}
+
 
 .frame{
 width: 60%;

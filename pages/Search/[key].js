@@ -3,7 +3,7 @@ import axios from 'axios'
 import  styled  from 'styled-components'
 import Header from '../Header'
 import Ad from '../Ad'
-import Head from 'next/document'
+import Head from 'next/head'
 import {RiAlbumLine, RiContactsBook2Line, RiDownload2Line, RiDownloadCloudLine, RiHeadphoneLine, RiMenu2Line, RiPlayLine, RiPlayList2Line, RiShareLine, RiSortDesc, RiSpeaker2Line, RiUpload2Line} from 'react-icons/ri'
 import Musicplayer from '../Musicplayer'
 import  {MobileView, BrowserView}  from 'react-device-detect';
@@ -21,12 +21,12 @@ export const getStaticPaths = async () => {
         method: 'GET',
         url: process.env.GET_SONG,
       };
-    const  res = await axios.request(options)
+    const  res = await axios.request(options);
     const data = await res.data; 
-    console.log(data.message.length,"HERE");
    
-    const paths = data.message.map((v,i) => {
-        return { params: {key : v.Music.music_title.toString()} }
+   
+    const paths = data.message.map(v => {
+        return { params: {key : v.Music.music_title} }
     });
 
     return {
@@ -46,7 +46,7 @@ export const getStaticProps = async (context) => {
      
     const  res = await axios.request(options);
     const data = await res.data; 
-    console.log(data.message.length,"ALSO");
+    //console.log(data.message.length,"ALSO");
 
     return {
         props: {song: data.message}
@@ -57,8 +57,9 @@ export const getStaticProps = async (context) => {
 
  const MusicResult = ({song}) => {
 
+    const musiclist = []; const artisitmusiclist = [];
     const [music, setMusic] = useState([]);
-    const [musiclink, setMusicLink] = useState([]);
+    const [othermusic, setOtherMusic] = useState([]);
     const [share, setShare] = useState(false);
     const [errand, setErrand] = useState('');
     const [showPlayermodel, setshowPlayermodel] = useState("close");
@@ -80,10 +81,34 @@ export const getStaticProps = async (context) => {
     }    
     
     useEffect(() => {
-        setMusic(song);
-        console.log(song);
+     let url = window.location.href;
+     console.log(url);
+       FontEndDB(url.substring(url.lastIndexOf("/")+1).toLowerCase());
+        setMusic(musiclist);
+        setOtherMusic(artisitmusiclist);
     },[song]);
 
+    
+    
+    function FontEndDB(query){
+        let artist = "";
+        song.map((v,i) => {
+                if(v.Music.music_title == query){
+                    if(v != undefined){
+                         musiclist.push(v);
+                         artist = v.Music.music_artist;
+                    }
+                }
+        })
+
+        song.map((v,i) => {
+            if(v.Music.music_artist == artist){
+                if(v != undefined)
+                     artisitmusiclist.push(v);
+            }
+       })
+
+    }
 
     const SortDiv = () => {
 
@@ -92,7 +117,6 @@ export const getStaticProps = async (context) => {
     const GetAlbumPlaylist = (e) => {
 
     }
-
 
     const SortByGenre = () => {
 
@@ -111,23 +135,274 @@ export const getStaticProps = async (context) => {
    
     return (
         <>
+       
          <Head>
-               {music  ?
-                  music.map((v) =>
-                  <>
-                    <title>Search result: {music.Music.music_title} By {music.Music.music_artist}</title>
-                    <meta name="description" content={`Downlaod ${music.Music.music_title} by {music.Music.music_artist} @ webfly.click`} />
-                    <meta property="og:title" content={`Search result: ${music.Music.music_title} By ${music.Music.music_artist}`} />
-                    <meta property="og:description" content={`Downlaod ${music.Music.music_title} By ${music.Music.music_artist} @ webfly.click`} />
-                    <meta property="og:url" content={`https://webfly.click`} />
-                    <meta property="og:type" content="website" />
-                    <link rel="icon" href="/favicon.ico" />
-                    </>
-                    )
-                :""}
+                    {music[0] != undefined ?
+                        <>
+                            {console.log(othermusic[0])}
+                            <title>Search result: {music[0].Music.music_title} By {music[0].Music.music_artist}</title>
+                            <meta name="description" content={`Downlaod ${music[0].Music.music_title} by {music.Music.music_artist} @ webfly.click`} />
+                            <meta property="og:title" content={`Search result: ${music[0].Music.music_title} By ${music[0].Music.music_artist}`} />
+                            <meta property="og:description" content={`Downlaod ${music[0].Music.music_title} By ${music[0].Music.music_artist} @ webfly.click`} />
+                            <meta property="og:url" content={`https://webfly.click`} />
+                            <meta property="og:type" content="website" />
+                            <link rel="icon" href="/favicon.ico" /> 
+                        </>
+                    : "" }
           </Head>
          <Header/>
-        <Container>
+         <Container>
+            
+           {share ? 
+            <ShareDialog>
+              {music[0] != undefined ? 
+                <div>
+                    <div id="house">
+                            <div id="writeup">
+                              Share via 
+                            </div>
+                            <div>
+                                
+                                <FacebookShareButton
+                                    url={`https://us-central1-grelots-ad690.cloudfunctions.net/dynamicpostRender?i=${process.env.NEXT_PUBLIC_BASE_URL+music[0].Music.music_thumbnail}&a=${music[0].Music.music_artist.toString().toUpperCase()}"&t=${window.location.href.substring(window.location.href.lastIndexOf("/")+1)}"&d=${music.doc_id}"&s=m&m="${music.email}`} 
+                                    quote={music[0].Music.music_artist.toUpperCase()+":  "+music[0].Music.music_title+"  Download @ webfly.click"}
+                                    onClick={(e) => setShare(false)}>
+                                <FacebookIcon round size={35}/>
+                                </FacebookShareButton>
+                            </div>
+                        </div>
+
+                        <div id="house">
+                            <div id="writeup">
+                                Share via
+                            </div>
+                    
+                            <WhatsappShareButton
+                                url={`https://us-central1-grelots-ad690.cloudfunctions.net/dynamicpostRender?i=${process.env.NEXT_PUBLIC_BASE_URL+music[0].Music.music_thumbnail}&a=${music[0].Music.music_artist.toString().toUpperCase()}"&t=${window.location.href.substring(window.location.href.lastIndexOf("/")+1)}"&d=${music.doc_id}"&s=m&m="${music.email}`} 
+                                quote={music[0].Music.music_artist.toUpperCase()+":  "+music[0].Music.music_title+"  Download @ webfly.click"}
+                                onClick={(e) => setShare(false)}>
+                            <WhatsappIcon round size={35}/>
+                            </WhatsappShareButton>
+                        </div>
+
+
+                         <div id="house">
+                                <div id="writeup">
+                                    Share via
+                                </div>
+                                <TwitterShareButton
+                                     url={`https://us-central1-grelots-ad690.cloudfunctions.net/dynamicpostRender?i=${process.env.NEXT_PUBLIC_BASE_URL+music[0].Music.music_thumbnail}&a=${music[0].Music.music_artist.toString().toUpperCase()}"&t=${window.location.href.substring(window.location.href.lastIndexOf("/")+1)}"&d=${music.doc_id}"&s=m&m="${music.email}`} 
+                                    quote={music[0].Music.music_artist.toUpperCase()+":  "+music[0].Music.music_title+"  Download @ webfly.click"}
+                                    onClick={(e) => setShare(false)}>
+                                <TwitterIcon round size={35}/>
+                                </TwitterShareButton>
+                        </div>
+                        <button onClick={(e) => setShare(false)}>Cancel</button>
+                </div>
+             :<p></p>}     
+             </ShareDialog> :""} 
+                
+                    <SideNav>
+                            <Grooves>
+                                Groove
+                            </Grooves>
+
+                            <MenuBar>
+                                <RiMenu2Line/>
+                            </MenuBar>
+
+                            <HR>
+                                <hr/>
+                            </HR>
+                            <table>
+
+                                <tr>
+                                    <td>
+                                        <TabInfo>
+                                        <RiHeadphoneLine/> &nbsp;&nbsp; Your Groove
+                                        </TabInfo>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <SubContainer>
+                                        <RiSortDesc  onClick={(e)=> SortDiv(e)}/> Sort By
+                                        </SubContainer>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                       <SubContainer>
+                                        <RiDownloadCloudLine  onClick={(e) => GetDownloadHighCount(e)}/> Trending
+                                        </SubContainer>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                    <SubContainer>
+                                        <RiAlbumLine   onClick={(e) => GetAlbumPlaylist(e)}/> Album
+                                        </SubContainer>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <SubContainer>
+                                        <RiPlayList2Line onClick={(e) => SortByGenre(e)}/> Genre
+                                        </SubContainer>
+                                    </td>
+                                </tr>
+                            </table>  
+
+                            <HR>
+                                <hr/>
+                            </HR>
+
+                            <table>
+                                <tr>
+                                    <td>
+                                        <TabInfo1>
+                                            QUICK ACCESS
+                                        </TabInfo1>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <SubContainer>
+                                        <RiSpeaker2Line/> Promote Music
+                                        </SubContainer>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                    <SubContainer>
+                                        <RiUpload2Line/> Upload Music
+                                        </SubContainer>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                    <SubContainer>
+                                        <RiContactsBook2Line/> Contact Webfly
+                                        </SubContainer>
+                                    </td>
+                                </tr>
+                            
+                            </table>  
+
+
+                    </SideNav>
+                    
+                    <MusicBanner>
+                        <TopMostPart>
+                                <h1>
+                                  Music Collection
+                                </h1>
+                            
+                        </TopMostPart>
+                        <SecondTopMost>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <Tabs>Artist &nbsp;&nbsp;</Tabs> 
+                                        <Tabs>Album &nbsp;&nbsp;</Tabs>
+                                        <Tabs>Playlist &nbsp;&nbsp;</Tabs>  
+                                    </td>
+                                </tr>
+                            </table>
+                        </SecondTopMost>
+
+
+                        <MusicMediasResult>
+                            {music[0] != undefined ? 
+                                        <>
+                                        <LEFTWING>
+                                           <img src={process.env.NEXT_PUBLIC_BASE_URL+music[0].Music.music_thumbnail}/>
+                                        </LEFTWING>
+                                        
+
+                                        <RIGHTWING>
+                                            <table>
+                                            <tr>
+                                                    <td>
+                                                    <BiUser/> Title: {music[0].Music.music_title}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <RiAlbumLine/> Artist: {music[0].Music.music_artist}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                    <BiTime/> Year: {music[0].Music.music_year}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div  id='widget'
+                                                            onClick={(e) => { PopUpPlayer(e); setpageErrand({musicTitle:music[0].Music.music_title, musicThumb:music[0].Music.music_thumbnail, musicArtist: music[0].Music.music_artist, musicVideoUrl: music[0].Music.music_video, musicUrl: music[0].Music.music_url, doc_id: music[0].Music.doc_id,promoIncentive:"https://"})}} src={process.env.NEXT_PUBLIC_BASE_URL+music[0].Music.music_thumbnail}>
+                                                            <RiDownload2Line/> Download   
+                                                        </div>
+                                                        
+                                                            &nbsp;&nbsp;&nbsp;&nbsp; 
+                                                        
+                                                          <div  id='widget'
+                                                              onClick={(e) => { PopUpPlayer(e); setpageErrand({musicTitle:music[0].Music.music_title, musicThumb: music[0].Music.music_thumbnail, musicArtist: music[0].Music.music_artist, musicVideoUrl: music[0].Music.music_video, musicUrl: music[0].Music.music_url, doc_id: music[0].Music.doc_id, promoIncentive:"https://"})}} src={process.env.REACT_APP_BASE_URL+music[0].Music.music_thumbnail}>
+                                                              <RiPlayLine/> Play
+                                                            </div>
+
+                                                            &nbsp;&nbsp;&nbsp;&nbsp; 
+                                                        
+                                                            <div  id='widget' onClick={(e) => popup()}>
+                                                              <RiShareLine/> Share
+                                                            </div>
+                                                    
+                                                    
+                                                    </td>
+                                                </tr>
+                                            </table>
+
+                                            
+                                            
+                                            <MusicMedias>
+                                                    {othermusic[0] != undefined ? (
+                                                        othermusic.map((v,i) => 
+                                                            <MusicGlide key={i}>
+                                                                
+                                                                <img   onClick={(e) => PopUpPlayer(e,setpageErrand({musicTitle:v.Music.music_title, musicThumb:v.Music.music_thumbnail, musicArtist:v.Music.music_artist, musicVideoUrl:v.Music.music_video, musicUrl:v.Music.music_url, doc_id: v.Music.doc_id,promoIncentive:"https://"}))} src={process.env.NEXT_PUBLIC_BASE_URL+v.Music.music_thumbnail}/>
+                                                                
+                                                                <BrowserView>
+                                                                    <h4>{ v.Music.music_title.length > 13 ? v.Music.music_title.substring(0,13)+"..." : v.Music.music_title}</h4>
+                                                                </BrowserView>
+
+                                                                <MobileView>
+                                                                    <h4>{ v.Music.music_title.length > 10 ? v.Music.music_title.substring(0,8)+"..." : v.Music.music_title}</h4>
+                                                                </MobileView>
+                                                                
+                                                                <h5>{ v.Music.music_artist.length > 13 ? v.Music.music_artist.substring(0,13)+"..." : v.Music.music_artist}</h5>
+                                    
+                                                            </MusicGlide>
+                                                            )
+                                                        ):(
+                                                            <div  id="loader">
+                                                                <Load/>
+                                                            </div>
+                                                        )}
+                                             </MusicMedias>
+
+                                            </RIGHTWING>
+                                            </>
+                                        :(
+                                        <div  id="loader">
+                                                <Load/>
+                                            </div>
+                                        )}  
+                          </MusicMediasResult>
+
+                    </MusicBanner>
+                    <Musicplayer  showPlayermodel={showPlayermodel}   PopUpPlayer={PopUpPlayer}  musicData={pageErrand}/> 
+
         </Container>
         </>
     )
@@ -347,10 +622,13 @@ width: 100%;
 
 
 const MusicMedias = styled.div`
-height: 25vh;
+height: 30vh;
 width: 100%;
-display: inline-block; 
 overflow-x:scroll;
+text-align:left;
+display:flex;
+margin-top:15px;
+
 
 
 ::-webkit-scrollbar {
@@ -372,19 +650,16 @@ margin:5px;
 text-align:center;
 display: inline-block;
 font-family: "Poppins", sans-serif;
-
-
-
+font-size:8pt;
 
 img{
-width: 100px;
-height: 100px;
+width: 120px;
+height: 120px;
 object-fit:cover;
 }
 
 h4{
 color: #000000;
-font-size:12pt;
 }
 
 h5{

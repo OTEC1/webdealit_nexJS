@@ -76,11 +76,11 @@ const Musicplayer = (props) => {
     }
 
 
+
+
     return(
-        
             <>
-           
-           <ShareDialog showModel={showModel}  musicArtist={props.musicData.musicArtist} musicTitle={props.musicData.musicTitle.replace(/ /g, '')}  musicThumb={props.musicData.musicThumb}  doc_id_b={props.musicData.doc_id_b} section="m"  redirectUser={redirectUser} mail={null}/> 
+            {props.musicData ? <ShareDialog showModel={showModel}  musicArtist={props.musicData.musicArtist} musicTitle={props.musicData.musicTitle.replace(/ /g, '')}  musicThumb={props.musicData.musicThumb}  doc_id_b={props.musicData.doc_id_b} section="m"  redirectUser={redirectUser} mail={null}/> : ""}
                 {props.showPlayermodel === "open" &&(
                     <Container>
                         <WidgetButton>

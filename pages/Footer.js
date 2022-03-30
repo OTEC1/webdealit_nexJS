@@ -1,15 +1,14 @@
 import styled  from "styled-components";
 import { RiAccountCircleLine, RiCopyrightLine,RiSafeFill, RiFacebookBoxLine, RiInstagramLine, RiMessage2Line, RiTeamLine, RiTwitterLine, } from 'react-icons/ri';
-
+import { useRouter } from "next/router";
 
 const Footer = (props) => {
 
 
-    const history = "";
-
+    const history = useRouter();
 
     const nav = (data,index1,index2) => {
-        history(`/${data}/`+index1+"/"+index2);
+        history.push(`/${data}?index1=`+index1+"&index2="+index2);
     }
 
     return(
@@ -17,7 +16,7 @@ const Footer = (props) => {
             <LEFT> 
             <table>
                 <tr>
-                    <td onClick={(e) => nav("contact",0,0)}>
+                    <td onClick={(e) => nav("Connect",0,0)}>
                      Contact us &nbsp; <RiMessage2Line/>
                     </td>
                 </tr>
@@ -48,7 +47,7 @@ const Footer = (props) => {
         <MIDDLE> 
            <table>
                 <tr>
-                    <td onClick={(e) => nav("about",0,0)}>
+                    <td onClick={(e) => nav("About",0,0)}>
                      About us &nbsp; <RiAccountCircleLine/>
                     </td>
                 </tr>
@@ -60,13 +59,13 @@ const Footer = (props) => {
                 </tr>
 
                 <tr>
-                    <td onClick={(e) => nav("contact",0,0)}>
+                    <td onClick={(e) => nav("Connect",0,0)}>
                      Connect  &nbsp;<RiTeamLine/> 
                     </td>
                 </tr>
 
                 <tr>
-                    <td  onClick={(e) => nav("about",1200,1200)}>
+                    <td  onClick={(e) => nav("About",1200,1200)}>
                      Disclaimer  &nbsp;<RiSafeFill/> 
                     </td>
                 </tr>

@@ -59,7 +59,7 @@ useEffect(() => {
     setdownloadlinks1(props.link.original_lang);
     setdownloadlinks2(props.link.persian_sub);
     console.log(props.link.original_lang, "   ",props.link.persian_sub)
-},[])
+},[props.link])
 
     return(
         <>  

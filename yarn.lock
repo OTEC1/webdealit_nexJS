@@ -257,6 +257,11 @@
     "@firebase/util" "1.5.1"
     "tslib" "^2.1.0"
 
+"@firebase/app-types@0.6.3":
+  "integrity" "sha512-/M13DPPati7FQHEQ9Minjk1HGLm/4K4gs9bR4rzLCWJg64yGtVC0zNg9gDpkw9yc2cvol/mNFxqTtd4geGrwdw=="
+  "resolved" "https://registry.npmjs.org/@firebase/app-types/-/app-types-0.6.3.tgz"
+  "version" "0.6.3"
+
 "@firebase/app-types@0.7.0", "@firebase/app-types@0.x":
   "integrity" "sha512-6fbHQwDv2jp/v6bXhBw2eSRbNBpxHcd1NBF864UksSMVIqIyri9qpJB1Mn6sGZE+bnDsSQBC5j2TbMxYsJQkQg=="
   "resolved" "https://registry.npmjs.org/@firebase/app-types/-/app-types-0.7.0.tgz"
@@ -327,7 +332,14 @@
     "@firebase/util" "1.5.1"
     "tslib" "^2.1.0"
 
-"@firebase/database-types@^0.9.3", "@firebase/database-types@0.9.6":
+"@firebase/database-types@^0.7.2":
+  "integrity" "sha512-dSOJmhKQ0nL8O4EQMRNGpSExWCXeHtH57gGg0BfNAdWcKhC8/4Y+qfKLfWXzyHvrSecpLmO0SmAi/iK2D5fp5A=="
+  "resolved" "https://registry.npmjs.org/@firebase/database-types/-/database-types-0.7.3.tgz"
+  "version" "0.7.3"
+  dependencies:
+    "@firebase/app-types" "0.6.3"
+
+"@firebase/database-types@0.9.6":
   "integrity" "sha512-E7U28X+FtVtug7EkIkaOXbdP8ghCPno21WWgEiDKsneY28N5WOwccfXqSzHgAAezkR40ht/ZqXlCsUhEpv6JXw=="
   "resolved" "https://registry.npmjs.org/@firebase/database-types/-/database-types-0.9.6.tgz"
   "version" "0.9.6"
@@ -1881,18 +1893,18 @@
   dependencies:
     "locate-path" "^2.0.0"
 
-"firebase-admin@^10.0.2":
-  "integrity" "sha512-MLH0SPmC4L0aCHvPjs1KThraru/T84T3hxiPY3uCH7NZEgE/T5n4GwecwU3RcM3X+br75BIBY7qhaR5uCxhdXA=="
-  "resolved" "https://registry.npmjs.org/firebase-admin/-/firebase-admin-10.0.2.tgz"
-  "version" "10.0.2"
+"firebase-admin@^10.0.1":
+  "integrity" "sha512-p8nrhNJyuAj/Pc3M0TWVU8rd4rPoeCREfRt7dJ+EwkMvFCdJ6Cb21y3ZlN3Qsbok8PEQjuWLNy+C3LQMTfUOcQ=="
+  "resolved" "https://registry.npmjs.org/firebase-admin/-/firebase-admin-10.0.1.tgz"
+  "version" "10.0.1"
   dependencies:
     "@firebase/database-compat" "^0.1.1"
-    "@firebase/database-types" "^0.9.3"
+    "@firebase/database-types" "^0.7.2"
     "@types/node" ">=12.12.47"
     "dicer" "^0.3.0"
     "jsonwebtoken" "^8.5.1"
     "jwks-rsa" "^2.0.2"
-    "node-forge" "^1.0.0"
+    "node-forge" "^0.10.0"
   optionalDependencies:
     "@google-cloud/firestore" "^4.5.0"
     "@google-cloud/storage" "^5.3.0"
@@ -2836,6 +2848,11 @@
   "version" "2.6.7"
   dependencies:
     "whatwg-url" "^5.0.0"
+
+"node-forge@^0.10.0":
+  "integrity" "sha512-PPmu8eEeG9saEUvI97fm4OYxXVB6bFvyNTyiUOBichBpFG8A1Ljw3bY62+5oOjDEMHRnd0Y7HQ+x7uzxOzC6JA=="
+  "resolved" "https://registry.npmjs.org/node-forge/-/node-forge-0.10.0.tgz"
+  "version" "0.10.0"
 
 "node-forge@^1.0.0":
   "integrity" "sha512-08ARB91bUi6zNKzVmaj3QO7cr397uiDT2nJ63cHjyNtCTWIgvS47j3eT0WfzUwS9+6Z5YshRaoasFkXCKrIYbA=="

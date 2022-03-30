@@ -2,7 +2,7 @@ import { SET_USER } from "../actions/actionType";
 
 
 const INITIAL_STATE = {
-    user: {User:{email:""}},
+    user:null,
 }
 
 const userReducer = (state = INITIAL_STATE, action) => {

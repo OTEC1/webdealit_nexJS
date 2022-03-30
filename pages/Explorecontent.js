@@ -63,7 +63,6 @@ import Footer from './Footer'
             <Navs/>
             <>
             {caller === "o" ?
-           
             <Explore  frame={frame} 
                       useremail={useremail}
                       doc_id_a={sessionStorage.getItem("doc_id_a")}
@@ -78,7 +77,7 @@ import Footer from './Footer'
                       views={views}/> 
                     
                 :(
-             <Explore frame={formation(frame.toLowerCase())} 
+             <Explore frame={formation(frame ? frame.toLowerCase() : "")} 
                               useremail={useremail}
                               doc_id_a={doc_id_a}
                               doc_id_b={doc_id_bs}

@@ -1,85 +1,94 @@
 import { useEffect } from 'react';
 import { RiMusicFill,RiAppsFill, RiBitCoinLine, RiSafe2Fill } from 'react-icons/ri';
-import { useParams } from 'react-router-dom';
+import { useRouter} from 'next/router'
 import styled from 'styled-components'
+import Header from './Header'
 
 
 const About = (props) => {
-    const {index1,index2} = useParams();
+    const query = useRouter();
+
     useEffect(() => {
+        let base  = query.query
+        let index1 = base.index1;
+        let index2 = base.index2;
         window.scrollTo(index1,index2);
-    },[])
+    },[]);
+    
+    
     return (
-        <Container>
-
-            <div>
-                <table>
-                    <tr>
-                        <td>
-                          <h5 id='div1'>
-                            <RiMusicFill size={25}/>
-                             &nbsp;&nbsp; Webflyblog helps it viewer stay current on relevant entertainment 
-                            news We are also into music promotion offer
-                          </h5>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <h5 id='div2'>
-                            <RiAppsFill size={25}/>
-                             &nbsp;&nbsp;
-                               Webfly business also extends to
-                                 mobile  app development
-                                 and website design
+        <>
+        <Header/>
+            <Container>
+                <div>
+                    <table>
+                        <tr>
+                            <td>
+                            <h5 id='div1'>
+                                <RiMusicFill size={25}/>
+                                &nbsp;&nbsp; Webflyblog helps it viewer stay current on relevant entertainment 
+                                news We are also into music promotion offer
                             </h5>
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
 
-
-                    <tr>
-                        <td>
-                            <h5 id='div3'>
-                                <RiBitCoinLine  size={25}/>
+                        <tr>
+                            <td>
+                                <h5 id='div2'>
+                                <RiAppsFill size={25}/>
                                 &nbsp;&nbsp;
-                                    With a strong knowledge in Crypto currencies we offer deep insight 
-                                    into blockchain technology while providing our user with get started guide 
-                                    into Crypto investments
-                            </h5>
-                        </td>
-                    </tr>
+                                Webfly business also extends to
+                                    mobile  app development
+                                    and website design
+                                </h5>
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td>
+                                <h5 id='div3'>
+                                    <RiBitCoinLine  size={25}/>
+                                    &nbsp;&nbsp;
+                                        With a strong knowledge in Crypto currencies we offer deep insight 
+                                        into blockchain technology while providing our user with get started guide 
+                                        into Crypto investments
+                                </h5>
+                            </td>
+                        </tr>
 
 
 
-                    <tr>
-                        <td>
-                            <h5 id='div4'>
-                                <RiSafe2Fill  size={25}/>
-                                &nbsp;&nbsp;
-                                   
-                                The information provided by Webfly  on webfly.click
-                                is for general informational purposes only. 
-                                 All information on the Site is provided in good faith, 
-                                 however we make no representation or warranty of any kind, express or implied, 
-                                 regarding the accuracy, adequacy, validity, 
-                                reliability, availability or completeness of any information on the Site 
-                      
+                        <tr>
+                            <td>
+                                <h5 id='div4'>
+                                    <RiSafe2Fill  size={25}/>
+                                    &nbsp;&nbsp;
+                                    
+                                    The information provided by Webfly  on webfly.click
+                                    is for general informational purposes only. 
+                                    All information on the Site is provided in good faith, 
+                                    however we make no representation or warranty of any kind, express or implied, 
+                                    regarding the accuracy, adequacy, validity, 
+                                    reliability, availability or completeness of any information on the Site 
+                        
 
-                                Pls note Under no circumstance shall we have any liability to you for any loss or damage of any kind incurred as a result of
-                                the use of the website  or reliance on any information provided on the site.
-                                 Your use of the site   and your reliance on any information on the site is solely at your own risk.
-                                 Thanks from the team @ webfly.click 
-                                
-                            </h5>
-                        </td>
-                    </tr>
+                                    Pls note Under no circumstance shall we have any liability to you for any loss or damage of any kind incurred as a result of
+                                    the use of the website  or reliance on any information provided on the site.
+                                    Your use of the site   and your reliance on any information on the site is solely at your own risk.
+                                    Thanks from the team @ webfly.click 
+                                    
+                                </h5>
+                            </td>
+                        </tr>
 
-                </table>
+                    </table>
 
-            </div>
+                </div>
 
-        </Container>
+            </Container>
 
+        </>
     )
 }
 

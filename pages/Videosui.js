@@ -106,7 +106,7 @@ export const  getStaticProps = async() => {
   return(
       <>
       <Head>
-      <title>webfly movies Downlaod</title>
+      <title>Webfly movies Downlaod</title>
       <meta name="description" content={`webflyblog produces content on healthy life tips, crypto market news also downlaod action & romantic movies and trending music.`} />
       <meta property="og:title" content={`webfly.click`} />
       <meta property="og:description" content={`webflyblog produces content on healthy life tips, crypto market news also downlaod action & romantic movies and trending music.`} />
@@ -154,8 +154,7 @@ export const  getStaticProps = async() => {
               <TopSection>   
                    <Slider  id="slider" duration={3500} autoplay={1} previousButton={<RiArrowLeftCircleLine color="#f5f5f5"/>} nextButton={<RiArrowRightCircleLine  color="#f5f5f5"/>}  onSlideChange={(e) => reset(e)}>
                       {listing.map((v,i) =>
-                         <div>
-                              
+                         <div key={i}>
                               <Readmore>
                                {i === 0 || i === 1 ?
                                   v.writeUp.length >= 140 ? v.writeUp.substring(0,140) : v.writeUp
@@ -251,7 +250,7 @@ export const  getStaticProps = async() => {
                 <span id='Span'>Trending</span>
                   <BottomSection>
                       {listing.map((v,i)=>
-                      <div id='videos'>
+                        <div id='videos'  key={i}>
                             <MobileView>
                              <img 
                                 style={{ transform: `rotate(${v.spin}deg)`}}
