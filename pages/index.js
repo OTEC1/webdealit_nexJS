@@ -28,7 +28,7 @@ export const getStaticProps  = async() =>{
 
 
 const  Home = ({list_got,navs}) =>{
-    const history = useRouter();
+  
     const [L1, setL1] = useState([]);
     const [L2, setL2] = useState([]);
     const [L3, setL3] = useState([]);
@@ -43,7 +43,6 @@ const  Home = ({list_got,navs}) =>{
     useEffect(() => {
      format(list_got);
      setL3(navs);
-     history.push(window.location.href);
     },[])
 
     
