@@ -40,10 +40,9 @@ export const getStaticProps = async (context) => {
     const title = context.params.key;
     var options = {
         method: 'POST',
-        url: process.env.GET_SONG,
-        data: {Music:{music_artist: title}}
+        url: process.env.NEXT_PUBLIC_GET_SONG_BY_TITLE,
+        data: {Music:{music_title: title}}
       };
-     
     const  res = await axios.request(options);
     const data = await res.data; 
     //console.log(data.message.length,"ALSO");
@@ -139,7 +138,6 @@ export const getStaticProps = async (context) => {
          <Head>
                     {music[0] != undefined ?
                         <>
-                            {console.log(othermusic[0])}
                             <title>Search result: {music[0].Music.music_title} By {music[0].Music.music_artist}</title>
                             <meta name="description" content={`Downlaod ${music[0].Music.music_title} by {music.Music.music_artist} @ webfly.click`} />
                             <meta property="og:title" content={`Search result: ${music[0].Music.music_title} By ${music[0].Music.music_artist}`} />
@@ -164,7 +162,7 @@ export const getStaticProps = async (context) => {
                             <div>
                                 
                                 <FacebookShareButton
-                                    url={`https://us-central1-grelots-ad690.cloudfunctions.net/dynamicpostRender?i=${process.env.NEXT_PUBLIC_BASE_URL+music[0].Music.music_thumbnail}&a=${music[0].Music.music_artist.toString().toUpperCase()}"&t=${window.location.href.substring(window.location.href.lastIndexOf("/")+1)}"&d=${music.doc_id}"&s=m&m="${music.email}`} 
+                                    url={`https://us-central1-grelots-ad690.cloudfunctions.net/dynamicpostRender?i=${process.env.NEXT_PUBLIC_BASE_URL+music[0].Music.music_thumbnail}&a=${music[0].Music.music_artist.toString().toUpperCase()}&t=${window.location.href.substring(window.location.href.lastIndexOf("/")+1)}&d=${music.doc_id}&s=m&m=${music.email}`} 
                                     quote={music[0].Music.music_artist.toUpperCase()+":  "+music[0].Music.music_title+"  Download @ webfly.click"}
                                     onClick={(e) => setShare(false)}>
                                 <FacebookIcon round size={35}/>
@@ -178,7 +176,7 @@ export const getStaticProps = async (context) => {
                             </div>
                     
                             <WhatsappShareButton
-                                url={`https://us-central1-grelots-ad690.cloudfunctions.net/dynamicpostRender?i=${process.env.NEXT_PUBLIC_BASE_URL+music[0].Music.music_thumbnail}&a=${music[0].Music.music_artist.toString().toUpperCase()}"&t=${window.location.href.substring(window.location.href.lastIndexOf("/")+1)}"&d=${music.doc_id}"&s=m&m="${music.email}`} 
+                               url={`https://us-central1-grelots-ad690.cloudfunctions.net/dynamicpostRender?i=${process.env.NEXT_PUBLIC_BASE_URL+music[0].Music.music_thumbnail}&a=${music[0].Music.music_artist.toString().toUpperCase()}&t=${window.location.href.substring(window.location.href.lastIndexOf("/")+1)}&d=${music.doc_id}&s=m&m=${music.email}`} 
                                 quote={music[0].Music.music_artist.toUpperCase()+":  "+music[0].Music.music_title+"  Download @ webfly.click"}
                                 onClick={(e) => setShare(false)}>
                             <WhatsappIcon round size={35}/>
@@ -191,7 +189,7 @@ export const getStaticProps = async (context) => {
                                     Share via
                                 </div>
                                 <TwitterShareButton
-                                     url={`https://us-central1-grelots-ad690.cloudfunctions.net/dynamicpostRender?i=${process.env.NEXT_PUBLIC_BASE_URL+music[0].Music.music_thumbnail}&a=${music[0].Music.music_artist.toString().toUpperCase()}"&t=${window.location.href.substring(window.location.href.lastIndexOf("/")+1)}"&d=${music.doc_id}"&s=m&m="${music.email}`} 
+                                      url={`https://us-central1-grelots-ad690.cloudfunctions.net/dynamicpostRender?i=${process.env.NEXT_PUBLIC_BASE_URL+music[0].Music.music_thumbnail}&a=${music[0].Music.music_artist.toString().toUpperCase()}&t=${window.location.href.substring(window.location.href.lastIndexOf("/")+1)}&d=${music.doc_id}&s=m&m=${music.email}`} 
                                     quote={music[0].Music.music_artist.toUpperCase()+":  "+music[0].Music.music_title+"  Download @ webfly.click"}
                                     onClick={(e) => setShare(false)}>
                                 <TwitterIcon round size={35}/>

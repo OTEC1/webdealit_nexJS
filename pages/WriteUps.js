@@ -9,8 +9,9 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import {CloudinaryContext, Image, Transformation} from 'cloudinary-react'
 import  {MobileView, BrowserView}  from 'react-device-detect';
-import { updatePostlikes } from "../actions";
+import { updatePostlikes , format_text} from "../actions";
 import { connect } from "react-redux";
+import Link from 'next/link'
 
 
 
@@ -73,7 +74,6 @@ const WriteUp = (props) => {
         sessionStorage.setItem("date_time",x.date_time);
         sessionStorage.setItem("likes",x.likes);
         sessionStorage.setItem("title",x.title);
-        history.push( `/Explorecontent?frame=${frame}&useremail=${x.useremail}&views=${x.views}&caller=${caller}&doc_id_b=${x.doc_id_b}`)
         window.scrollTo(0,0);
         
       }
@@ -141,7 +141,7 @@ const WriteUp = (props) => {
           </table>   
          </Container>
       <Contain>
-      { props.writeup ? <ShareDialog showModel={showModel}  musicArtist={props.frame} musicTitle={props.title}  musicThumb={props.media.includes(".mp4") ?  process.env.REACT_APP_S3_VIDEO_SECTION+props.media :  process.env.REACT_APP_S3_PICTURE_SECTION+props.media}   doc_id_b={props.doc_id_b} section="p"  redirectUser={redirectUser}  mail={props.User}/>  : ""}
+      { props.writeup ? <ShareDialog showModel={showModel}  musicArtist={props.frame} musicTitle={props.title}  musicThumb={props.media.includes(".mp4") ?  process.env.NEXT_PUBLIC_S3_VIDEO_SECTION+props.media :  process.env.NEXT_PUBLIC_S3_S3_PICTURE_SECTION+props.media}   doc_id_b={props.doc_id_b} section="p"  redirectUser={redirectUser}  mail={props.User}/>  : ""}
       </Contain>
 
             <MoreContent>
@@ -151,19 +151,19 @@ const WriteUp = (props) => {
                 <RelatedContent>
                         {list.map((v,i) =>
                            v.UserPost.image  &&  v.UserPost.doc_id_a !== props.doc_id_a ?
-                            <MiniContainer   onClick={(e)=>  navigates({frame:"Pictureframe",useremail:v.User.useremail, doc_id_a:v.UserPost.doc_id_a, doc_id_b:v.UserPost.doc_id_b, title:v.UserPost.title, cloudinaryPub: v.UserPost.cloudinaryPub, exifData: v.UserPost.exifData, media: v.UserPost.image, writeup: v.UserPost.writeup, date_time: v.UserPost.date_time, likes:v.UserPost.likes, views:v.UserPost.views})}>
-                              <img  id="im" src={process.env.NEXT_PUBLIC_APP_S3_IMAGE_BUCKET+v.UserPost.image}/>
-                                <MobileView>
-                                <div id="up">{v.UserPost.title}</div>
-                                <br/>
-                                <div id="down">{v.UserPost.writeup.length > 100 ? v.UserPost.writeup.substring(0,70)+" ... Read more" : v.UserPost.writeup }</div>
-                                </MobileView>
-
-
-                                <BrowserView>
-                                <div id="down"> {v.UserPost.writeup.length > 60 ? v.UserPost.writeup.substring(0,60)+" ... Read more" : v.UserPost.writeup }</div>
-                                </BrowserView>
-                              </MiniContainer>
+                           <Link href={`/Read/${format_text(v.UserPost.title)}`}>
+                                <MiniContainer>
+                                    <img  id="im" src={process.env.NEXT_PUBLIC_APP_S3_IMAGE_BUCKET+v.UserPost.image}/>
+                                        <MobileView>
+                                        <div id="up">{v.UserPost.title}</div>
+                                        <br/>
+                                        <div id="down">{v.UserPost.writeup.length > 100 ? v.UserPost.writeup.substring(0,70)+" ... Read more" : v.UserPost.writeup }</div>
+                                        </MobileView>
+                                        <BrowserView>
+                                        <div id="down"> {v.UserPost.writeup.length > 60 ? v.UserPost.writeup.substring(0,60)+" ... Read more" : v.UserPost.writeup }</div>
+                                        </BrowserView>
+                                </MiniContainer>
+                              </Link>
                          : <div></div>
                         )}
                 </RelatedContent>

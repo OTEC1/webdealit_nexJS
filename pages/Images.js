@@ -4,7 +4,6 @@ import {CloudinaryContext, Image, Transformation} from 'cloudinary-react'
 import  {MobileView, BrowserView}  from 'react-device-detect';
 
 const Images = (props) => {
-
   return (
     <Container>
 

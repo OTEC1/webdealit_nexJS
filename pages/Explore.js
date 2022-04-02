@@ -75,7 +75,6 @@ const Explore  =  (props) => {
                                                     {!react ?  <RiThumbUpLine  id='thumb'/> :  <RiThumbUpFill color='#4180FF'  id='thumb'/>}
                                                    </td>
                                                </tr>
-
                                                <tr>
                                                    <td>
                                                    <span>{update ?  parseInt(format(props.likes))+1 : format(props.likes)}</span>
@@ -83,7 +82,7 @@ const Explore  =  (props) => {
                                                </tr>
                                            </table>
                                        </div>
-                                        <Images title={props.title} cloud={sessionStorage.getItem("cloud")} />
+                                        <Images title={props.title} cloud={props.cloud} />
                                         <WriteUp title={props.title}  date_time={props.date_time}  writeup={props.writeup}  views={props.views}  doc_id_b={props.doc_id_b} media={props.media}  frame={props.frame}   doc_id_a={props.doc_id_a}  User={props.useremail}/>
                                     </div>
                                 </div>  
@@ -108,7 +107,7 @@ const Explore  =  (props) => {
                                             </table>
                                         </div>
 
-                                            <ReactPlayer  alt={props.title}   width="100%"  height="400px"  controls url={process.env.REACT_APP_APP_S3_VIDEO_BUCKET+props.media}  autoPlay />
+                                            <ReactPlayer  alt={props.title}   width="100%"  height="400px"  controls url={process.env.NEXT_PUBLIC_APP_S3_VIDEO_BUCKET+props.media}  autoPlay />
                                             <WriteUp title={props.title}  date_time={props.date_time}  writeup={props.writeup}  views={props.views}  doc_id_b={props.doc_id_b}  media={props.media}  frame={props.frame}  doc_id_a={props.doc_id_a} User={props.useremail}/>
                                      </div>
                                     </div>

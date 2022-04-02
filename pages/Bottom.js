@@ -48,8 +48,12 @@ const Bottom = (props) => {
   
   
 
-    return(<div>
-            <Container>
+    return(
+             <>
+                <AdRunner>
+                    ADVERTISMENT SPACE
+                </AdRunner>
+                <Container>
                 {list.map((v,i) =>
                 v.UserPost.image ?
                  <CardShow>
@@ -114,9 +118,28 @@ const Bottom = (props) => {
             </Container>
 
             <Footer/>
-        </div>
+        </>
     )
 }
+
+
+
+const AdRunner = styled.div`
+display: none;
+@media(max-width:768px){
+display: flex;
+box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+height: 220px;
+width: 100%;
+margin-left:auto;
+margin-right:auto;
+justify-content:center;
+align-items:center;
+margin-top:20px;
+text-align:center;
+color:#FFF;
+}
+`;
 
 
 const Container = styled.div`
@@ -133,11 +156,9 @@ overflow-y:scroll;
 
 ::-webkit-scrollbar {
 display: none;
+margin-top:0px;
 }
 
-@media(max-width:968px){
-margin-top:200px;
-}
 `;
 
 

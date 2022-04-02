@@ -11,6 +11,7 @@ import TwoTone from './TwoTone'
 import { formation } from '../actions'
 import Footer from './Footer'
 import Head from 'next/head'
+import Meta from './Heads'
 
 
 
@@ -34,7 +35,6 @@ export const  getStaticProps = async() => {
     const [pageErrand,setpageErrand] = useState({musicArtist:"",musicTitle:"",musicUrl:"",musicVideoUrl:"",musicThumb:"",doc_id_b:"",promoIncentive:""})
     
     useEffect(() => {
-      document.title = "Webfly Music Gallery"
       setMusic(musiclist)
       mapping(musiclist);
     },[])
@@ -81,15 +81,10 @@ export const  getStaticProps = async() => {
 
     return (
         <>
-                <Head>
-                    <title>webfly music, Downlaod the latest  Trending  music @ Webfly.click</title>
-                    <meta name="description" content={`Downlaod the latest  Trending  music @ Webfly.click`} />
-                    <meta property="og:title" content={`Music Download and streaming`} />
-                    <meta property="og:description" content={`Music Download and streaming`} />
-                    <meta property="og:url" content={`https://webfly.click`} />
-                    <meta property="og:type" content="website" />
-                    <link rel="icon" href="/favicon.ico" />
-                </Head>
+          <Meta  title={"Webfly music, Downlaod the latest Trending  music @ Webfly.click"}
+                        desc={`Downlaod the latest  Trending  music @ Webfly.click`}
+                        web_url={`https://webfly.click`} href={"/favicon.ico"}/>
+
                 <Header/>
                 <TwoTone/>
                 <Container>

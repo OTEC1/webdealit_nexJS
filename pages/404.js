@@ -1,23 +1,17 @@
-import {useEffect} from 'react'
-import styled from 'styled-components'
+import { useEffect } from "react";
 import {useRouter} from 'next/router'
 
 const Error = () => {
-    const history = useRouter();
+    const history = useRouter()
     useEffect(() => {
-        history.push(window.location.href);
+        history.push(window.location.href); 
     },[])
-    return (  
-        <Container>
 
-        </Container>
+    return (  
+        <div>
+
+        </div>
     );
 }
-
-
-const Container = styled.div`
-
-
-`;
  
 export default Error;

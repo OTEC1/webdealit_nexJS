@@ -13,6 +13,7 @@ import {BiCreditCard} from 'react-icons/bi'
 import {FaSyncAlt} from 'react-icons/fa'
 import  Head from 'next/head';
 import {useRouter}  from 'next/router'
+import Meta from './Heads';
 
 
 
@@ -48,15 +49,12 @@ const  Home = ({list_got,navs}) =>{
     
     return(
              <>
-               <Head>
-                    <title>Webfly.click</title>
-                    <meta name="description" content={`webflyblog produces content on healthy life tips, crypto market news also downlaod action & romantic movies and trending music.`} />
-                    <meta property="og:title" content={`webfly.click`} />
-                    <meta property="og:description" content={`webflyblog produces content on healthy life tips, crypto market news also downlaod action & romantic movies and trending music.`} />
-                    <meta property="og:url" content={`https://webfly.click`} />
-                    <meta property="og:type" content="website" />
-                    <link rel="icon" href="/favicon.ico" />
-                </Head>
+             <Meta title={"Webfly.click"}  
+                   desc={`webflyblog produces content on healthy life tips, crypto market news also downlaod
+                   action & romantic movies and trending music.`}
+                   web_url={`https://webfly.click`} 
+                   href={"/favicon.ico"}/>
+            
              <Header/>
               <TwoTone/>  
                <Container>
@@ -75,7 +73,7 @@ const  Home = ({list_got,navs}) =>{
                           )} 
                         </Marquee> 
                   </AdRunner>
-              </TopHouseContainer>  
+               </TopHouseContainer>  
                  <Contain>
                   {L1.length > 0 ? (
                     <Top  post={L1}/>
@@ -88,8 +86,8 @@ const  Home = ({list_got,navs}) =>{
                  </Contain>
                  <Ad/>  
                 </Container> 
-                {L2.length > 0 ? ( 
-                <Bottom data={L2}/>            
+                 {L2.length > 0 ? ( 
+                   <Bottom data={L2}/>            
                 ):<p></p>
                }
        </>  

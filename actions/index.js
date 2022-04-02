@@ -212,3 +212,7 @@ export function  format(count){
 
 
 
+export const format_text = (data) => {
+    let r = data.replace(/ /g,'+');
+    return r;
+}

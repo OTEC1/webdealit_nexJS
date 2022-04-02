@@ -37,8 +37,8 @@ import Footer from './Footer'
 
     useEffect(()=>{
       window.scrollTo(0,0);   
-      if(caller === "p")
-            axios.post(process.env.REACT_APP_GET_POST_LINK,{User:{useremail:useremail},UserPost:{doc_id_b:doc_id_b}})
+      if(caller == "p")
+            axios.post(process.env.NEXT_PUBLIC_GET_POST_LINK,{User:{useremail:useremail},UserPost:{doc_id_b:doc_id_b}})
                   .then(res => {
                      setdoc_id_bs(res.data.message.UserPost.doc_id_b)
                      setdoc_id_a(res.data.message.UserPost.doc_id_a)
@@ -54,6 +54,7 @@ import Footer from './Footer'
                   .catch(err => {
                      console.log(err);
                   })
+         
     },[])
     return (
        <>
@@ -62,21 +63,6 @@ import Footer from './Footer'
         <Container>
             <Navs/>
             <>
-            {caller === "o" ?
-            <Explore  frame={frame} 
-                      useremail={useremail}
-                      doc_id_a={sessionStorage.getItem("doc_id_a")}
-                      doc_id_b={sessionStorage.getItem("doc_id_b")}
-                      title={sessionStorage.getItem("title")}
-                      exifData={sessionStorage.getItem("exifData")}
-                      media={sessionStorage.getItem("media")}
-                      writeup={sessionStorage.getItem("writeup")}
-                      likes={sessionStorage.getItem("likes")}
-                      date_time={sessionStorage.getItem("date_time")}
-                      cloud={sessionStorage.getItem("cloud")}
-                      views={views}/> 
-                    
-                :(
              <Explore frame={formation(frame ? frame.toLowerCase() : "")} 
                               useremail={useremail}
                               doc_id_a={doc_id_a}
@@ -89,8 +75,6 @@ import Footer from './Footer'
                               date_time={date_time} 
                               cloud={cloud}
                               views={viewer}/> 
-                )   
-                }
                 </>    
             <Footer/>
         </Container>

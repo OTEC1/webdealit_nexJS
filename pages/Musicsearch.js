@@ -10,28 +10,25 @@ import {MobileView, BrowserView}  from 'react-device-detect';
 import Load from './Load'
 import TwoTone from './TwoTone'
 import {useLocation} from 'react-router-dom'
-import { useRouter } from 'next/router'
 import Swal from 'sweetalert2'
 import { BiDisc, BiTime, BiUser } from 'react-icons/bi'
 import {FacebookShareButton,TwitterShareButton,WhatsappShareButton,FacebookIcon,WhatsappIcon,TwitterIcon} from 'react-share'
+import { format_text } from '../actions'
 
 
 
- const MusicSearch = (props) => {
-    const  route = useRouter();
-    const base  = route.query;
-    const [mus, setmus] = useState([]);
-    const [music, setMusic] = useState({Music:{music_artist:"",music_title:"",music_year:"",music_url:"",music_video:"",music_thumbnail:"",music_section:"",doc_id:"",email:""}});
-    const [musiclink, setMusicLink] = useState([]);
+
+
+ const Musicsearch = (props) => {
+
+    const musiclist = []; const artisitmusiclist = []; let stal= []; let stal2;
+    const [music, setMusic] = useState([]);
+    const [othermusic, setOtherMusic] = useState([]);
     const [share, setShare] = useState(false);
     const [errand, setErrand] = useState('');
     const [showPlayermodel, setshowPlayermodel] = useState("close");
     const [pageErrand, setpageErrand] = useState({musicArtist:"",musicTitle:"",musicUrl:"",musicVideoUrl:"",musicThumb:"",doc_id:"",promoIncentive:""})
-    let musiclist = [];
-    useEffect(() => {           
-        FontEndDB(1,base.M);
-    },[route]);
-
+   
     const PopUpPlayer  = (e,v) => {
         e.preventDefault();
         switch(showPlayermodel){
@@ -47,26 +44,63 @@ import {FacebookShareButton,TwitterShareButton,WhatsappShareButton,FacebookIcon,
         }
     }    
     
-   
+    useEffect(() => {
+        var url = new URL(window.location.href);
+        var query = url.searchParams.get("M");
+        GETSONG(query);
+    },[]);
 
-    async function FontEndDB(index,value){
-        const res = await axios.request(process.env.NEXT_PUBLIC_GET_SONGS)
+    
+
+
+    async function GETSONG(query){
+       
+        var options = {
+            method: 'POST',
+            url: "https://us-central1-grelots-ad690.cloudfunctions.net/webdealitGetMusicByMusictitle",
+            data: {Music:{music_title: query}}
+          };
+        const  res = await axios.request(options);
         const data = await res.data;
-        console.log(data);
-        data.message.map((v,i) => {
 
-               if(v.Music.music_artist == base.M)
-                   musiclist.push(v);
 
-                if(v.Music.music_title == base.M)
-                   musiclist.push(v);
-        }); 
+        var options2 = {
+            method: 'GET',
+            url: process.env.NEXT_PUBLIC_GET_SONGS
+          };
+        const  res2 = await axios.request(options2);
+        const data2 = await res2.data;
 
-        setMusic(musiclist[0]);
-        setmus(musiclist);
 
+        stal.push(data.message);
+        stal2 = data2.message;
+        FontEndDB(format_text(query.toLowerCase())); 
     }
+    
 
+    function FontEndDB(query){
+        let artist;
+        stal.map((v,i) => {
+                 if(v[0].Music.music_title == query){
+                         musiclist.push(v);
+                         artist = v[0].Music.music_artist;
+               }
+        })
+
+     
+            stal2.map((v,i) => {
+               if(v.Music.music_artist == artist){
+                   if(v != undefined)
+                      artisitmusiclist.push(v);
+               }
+            })
+       
+       setOtherMusic(artisitmusiclist);
+       setMusic(musiclist);
+       
+
+      console.log( artisitmusiclist)
+    }
 
     const SortDiv = () => {
 
@@ -75,7 +109,6 @@ import {FacebookShareButton,TwitterShareButton,WhatsappShareButton,FacebookIcon,
     const GetAlbumPlaylist = (e) => {
 
     }
-
 
     const SortByGenre = () => {
 
@@ -94,25 +127,29 @@ import {FacebookShareButton,TwitterShareButton,WhatsappShareButton,FacebookIcon,
    
     return (
         <>
-           <Head>
-           {music ?
-               <>
-                <title>Search result: {music.Music.music_title} By {music.Music.music_artist}</title>
-                <meta name="description" content={`Downlaod ${music.Music.music_title} by {music.Music.music_artist} @ webfly.click`} />
-                <meta property="og:title" content={`Search result: ${music.Music.music_title} By ${music.Music.music_artist}`} />
-                <meta property="og:description" content={`Downlaod ${music.Music.music_title} By ${music.Music.music_artist} @ webfly.click`} />
-                <meta property="og:url" content={`https://webfly.click`} />
-                <meta property="og:type" content="website" />
-                <link rel="icon" href="/favicon.ico" />
-                </>
-                :""}
+          <Head>
+                    {music[0] != undefined ?
+                      music[0].map((v) => 
+                         <> 
+                            <title>Search result: {v.Music.music_title} By {v.Music.music_artist}</title>
+                            <meta name="description" content={`Downlaod ${v.Music.music_title} by {music.Music.music_artist} @ webfly.click`} />
+                            <meta property="og:title" content={`Search result: ${v.Music.music_title} By ${v.Music.music_artist}`} />
+                            <meta property="og:description" content={`Downlaod ${v.Music.music_title} By ${v.Music.music_artist} @ webfly.click`} />
+                            <meta property="og:url" content={`https://webfly.click`} />
+                            <meta property="og:type" content="website" />
+                            <link rel="icon" href="/favicon.ico" /> 
+                         </>
+                        )
+                    : "" }
           </Head>
-
          <Header/>
-          {share ? 
+         <Container>
+            
+           {share ? 
             <ShareDialog>
-              {music != undefined ? 
-                <div>
+              {music[0] != undefined ? 
+                music[0].map((v,i) =>
+                 <div key={i}>
                     <div id="house">
                             <div id="writeup">
                               Share via 
@@ -120,8 +157,8 @@ import {FacebookShareButton,TwitterShareButton,WhatsappShareButton,FacebookIcon,
                             <div>
                                 
                                 <FacebookShareButton
-                                    url={`https://us-central1-grelots-ad690.cloudfunctions.net/dynamicpostRender?i=${process.env.NEXT_PUBLIC_BASE_URL+music.Music.music_thumbnail}&a=${music.Music.music_artist.toString().toUpperCase()}"&t=${base.M}"&d=${music.doc_id}"&s=m&m="${music.email}`} 
-                                    quote={music.Music.music_artist.toUpperCase()+":  "+music.music_title+"  Download @ webfly.click"}
+                                    url={`https://us-central1-grelots-ad690.cloudfunctions.net/dynamicpostRender?i=${process.env.NEXT_PUBLIC_BASE_URL+v.Music.music_thumbnail}&a=${v.Music.music_artist.toString().toUpperCase()}&t=${format_text(new URL(window.location.href).searchParams.get("M"))}&d=${v.Music.doc_id}&s=m&m=${v.Music.email}`} 
+                                    quote={v.Music.music_artist.toUpperCase()+":  "+v.Music.music_title+"  Download @ webfly.click"}
                                     onClick={(e) => setShare(false)}>
                                 <FacebookIcon round size={35}/>
                                 </FacebookShareButton>
@@ -134,8 +171,8 @@ import {FacebookShareButton,TwitterShareButton,WhatsappShareButton,FacebookIcon,
                             </div>
                     
                             <WhatsappShareButton
-                                url={`https://us-central1-grelots-ad690.cloudfunctions.net/dynamicpostRender?i=${process.env.NEXT_PUBLIC_BASE_URL+music.Music.music_thumbnail}&a=${music.Music.music_artist.toString().toUpperCase()}"&t=${base.M}"&d=${music.doc_id}"&s=m&m="${music.email}`} 
-                                quote={music.Music.music_artist.toUpperCase()+":  "+music.Music.music_title+"  Download @ webfly.click"}
+                               url={`https://us-central1-grelots-ad690.cloudfunctions.net/dynamicpostRender?i=${process.env.NEXT_PUBLIC_BASE_URL+v.Music.music_thumbnail}&a=${v.Music.music_artist.toString().toUpperCase()}&t=${format_text(new URL(window.location.href).searchParams.get("M"))}&d=${v.Music.doc_id}&s=m&m=${v.Music.email}`} 
+                                quote={v.Music.music_artist.toUpperCase()+":  "+v.Music.music_title+"  Download @ webfly.click"}
                                 onClick={(e) => setShare(false)}>
                             <WhatsappIcon round size={35}/>
                             </WhatsappShareButton>
@@ -147,25 +184,21 @@ import {FacebookShareButton,TwitterShareButton,WhatsappShareButton,FacebookIcon,
                                     Share via
                                 </div>
                                 <TwitterShareButton
-                                     url={`https://us-central1-grelots-ad690.cloudfunctions.net/dynamicpostRender?i=${process.env.NEXT_PUBLIC_BASE_URL+music.Music.music_thumbnail}&a=${music.Music.music_artist.toString().toUpperCase()}"&t=${base.M}"&d=${music.doc_id}"&s=m&m="${music.email}`} 
-                                    quote={music.Music.music_artist.toUpperCase()+":  "+music.Music.music_title+"  Download @ webfly.click"}
+                                     url={`https://us-central1-grelots-ad690.cloudfunctions.net/dynamicpostRender?i=${process.env.NEXT_PUBLIC_BASE_URL+v.Music.music_thumbnail}&a=${v.Music.music_artist.toString().toUpperCase()}&t=${format_text(new URL(window.location.href).searchParams.get("M"))}&d=${v.Music.doc_id}&s=m&m=${v.Music.email}`} 
+                                    quote={v.Music.music_artist.toUpperCase()+":  "+v.Music.music_title+"  Download @ webfly.click"}
                                     onClick={(e) => setShare(false)}>
                                 <TwitterIcon round size={35}/>
                                 </TwitterShareButton>
                         </div>
                         <button onClick={(e) => setShare(false)}>Cancel</button>
                 </div>
-             :<p></p>}     
-             </ShareDialog> :""}
-        
-
-                <TwoTone/>
-                <Container >
+                ):<p></p>}     
+             </ShareDialog> :""} 
+                
                     <SideNav>
                             <Grooves>
                                 Groove
                             </Grooves>
-
 
                             <MenuBar>
                                 <RiMenu2Line/>
@@ -187,7 +220,7 @@ import {FacebookShareButton,TwitterShareButton,WhatsappShareButton,FacebookIcon,
                                 <tr>
                                     <td>
                                         <SubContainer>
-                                        <RiSortDesc  onClick={(e)=> SortDiv(e)}/> Sort By
+                                           <RiSortDesc  onClick={(e)=> SortDiv(e)}/> Sort By
                                         </SubContainer>
                                     </td>
                                 </tr>
@@ -274,10 +307,12 @@ import {FacebookShareButton,TwitterShareButton,WhatsappShareButton,FacebookIcon,
 
 
                         <MusicMediasResult>
-                            {music ? 
+
+                            {music[0] != undefined ? 
+                               music[0].map((v) =>
                                         <>
                                         <LEFTWING>
-                                           <img src={process.env.NEXT_PUBLIC_BASE_URL+music.Music.music_thumbnail}/>
+                                           <img src={process.env.NEXT_PUBLIC_BASE_URL+v.Music.music_thumbnail}/>
                                         </LEFTWING>
                                         
 
@@ -285,30 +320,30 @@ import {FacebookShareButton,TwitterShareButton,WhatsappShareButton,FacebookIcon,
                                             <table>
                                             <tr>
                                                     <td>
-                                                    <BiUser/> Title: {music.Music.music_title}
+                                                    <BiUser/> Title: {v.Music.music_title}
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <RiAlbumLine/> Artist: {music.Music.music_artist}
+                                                        <RiAlbumLine/> Artist: {v.Music.music_artist}
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                    <BiTime/> Year: {music.Music.music_year}
+                                                    <BiTime/> Year: {v.Music.music_year}
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
                                                         <div  id='widget'
-                                                            onClick={(e) => PopUpPlayer(e,setpageErrand({musicTitle:music.Music.music_title, musicThumb:music.Music.music_thumbnail, musicArtist:music.Music.music_artist, musicVideoUrl:music.Music.music_video, musicUrl:music.Music.music_url, doc_id: music.Music.doc_id,promoIncentive:"https://"}))} src={process.env.REACT_APP_BASE_URL+music.Music.music_thumbnail}>
+                                                            onClick={(e) => { PopUpPlayer(e); setpageErrand({musicTitle:v.Music.music_title, musicThumb:v.Music.music_thumbnail, musicArtist: v.Music.music_artist, musicVideoUrl: v.Music.music_video, musicUrl: v.Music.music_url, doc_id: v.Music.doc_id,promoIncentive:"https://"})}} src={process.env.NEXT_PUBLIC_BASE_URL+v.Music.music_thumbnail}>
                                                             <RiDownload2Line/> Download   
                                                         </div>
                                                         
                                                             &nbsp;&nbsp;&nbsp;&nbsp; 
                                                         
                                                           <div  id='widget'
-                                                           onClick={(e) => PopUpPlayer(e,setpageErrand({musicTitle:music.Music.music_title, musicThumb: music.Music.music_thumbnail, musicArtist:music.Music.music_artist, musicVideoUrl:music.Music.music_video, musicUrl:music.Music.music_url, doc_id:music.Music.doc_id, promoIncentive:"https://"}))} src={process.env.REACT_APP_BASE_URL+music.Music.music_thumbnail}>
+                                                              onClick={(e) => { PopUpPlayer(e); setpageErrand({musicTitle:v.Music.music_title, musicThumb: v.Music.music_thumbnail, musicArtist: v.Music.music_artist, musicVideoUrl: v.Music.music_video, musicUrl: v.Music.music_url, doc_id: v.Music.doc_id, promoIncentive:"https://"})}} src={process.env.REACT_APP_BASE_URL+v.Music.music_thumbnail}>
                                                               <RiPlayLine/> Play
                                                             </div>
 
@@ -325,14 +360,15 @@ import {FacebookShareButton,TwitterShareButton,WhatsappShareButton,FacebookIcon,
 
                                             
                                             
-                                            <MusicMedias>
-                                                    {mus.length> 0 ? (
-                                                        mus.map((v,i) => 
+                                             <MusicMedias>
+                                                    {othermusic[0] != undefined ? (
+                                                        othermusic.map((v,i) => 
                                                             <MusicGlide key={i}>
+                                                              
                                                                 
                                                                 <img   onClick={(e) => PopUpPlayer(e,setpageErrand({musicTitle:v.Music.music_title, musicThumb:v.Music.music_thumbnail, musicArtist:v.Music.music_artist, musicVideoUrl:v.Music.music_video, musicUrl:v.Music.music_url, doc_id: v.Music.doc_id,promoIncentive:"https://"}))} src={process.env.NEXT_PUBLIC_BASE_URL+v.Music.music_thumbnail}/>
                                                                 
-                                                                <BrowserView>
+                                                                 <BrowserView>
                                                                     <h4>{ v.Music.music_title.length > 13 ? v.Music.music_title.substring(0,13)+"..." : v.Music.music_title}</h4>
                                                                 </BrowserView>
 
@@ -340,7 +376,7 @@ import {FacebookShareButton,TwitterShareButton,WhatsappShareButton,FacebookIcon,
                                                                     <h4>{ v.Music.music_title.length > 10 ? v.Music.music_title.substring(0,8)+"..." : v.Music.music_title}</h4>
                                                                 </MobileView>
                                                                 
-                                                                <h5>{v.Music.music_artist}</h5>
+                                                                <h5>{ v.Music.music_artist.length > 13 ? v.Music.music_artist.substring(0,13)+"..." : v.Music.music_artist}</h5>
                                     
                                                             </MusicGlide>
                                                             )
@@ -349,22 +385,21 @@ import {FacebookShareButton,TwitterShareButton,WhatsappShareButton,FacebookIcon,
                                                                 <Load/>
                                                             </div>
                                                         )}
-                                             </MusicMedias>
+                                             </MusicMedias> 
 
                                             </RIGHTWING>
                                             </>
-                                        :(
+                                        ):(
                                         <div  id="loader">
                                                 <Load/>
                                             </div>
                                         )}  
                           </MusicMediasResult>
 
-                          
-
                     </MusicBanner>
-                    <Musicplayer  showPlayermodel={showPlayermodel}   PopUpPlayer={PopUpPlayer}  musicData={pageErrand}/>
-                </Container>
+                    <Musicplayer  showPlayermodel={showPlayermodel}   PopUpPlayer={PopUpPlayer}  musicData={pageErrand}/> 
+
+        </Container>  
         </>
     )
  }
@@ -520,7 +555,7 @@ margin-bottom:10px;
 
 tr td{
 padding-left: 50px;
-margin-top:10px;
+margin-top:20px;
 display: flex;
 justify-content:left;
 align-items:left;
@@ -557,9 +592,8 @@ height: 100%;
 width: 47.5%;
 img{
 width: 100%;
-height: 95%;
+height: 100%;
 object-fit:cover;
-margin-top:10px;
 }
 
 @media(max-width:968px){
@@ -576,9 +610,6 @@ height: 300px;
 const RIGHTWING = styled.div`
 height: 100%;
 width: 47.5%;
-display:flex;
-flex-direction:column;
-flex-wrap:wrap;
 @media(max-width:968px){
 width: 100%;
 }
@@ -587,12 +618,13 @@ width: 100%;
 
 
 const MusicMedias = styled.div`
-height: 26vh;
+height: 30vh;
 width: 100%;
-display: inline-block; 
 overflow-x:scroll;
-padding-top:50px;
 text-align:left;
+display:flex;
+margin-top:15px;
+
 
 
 ::-webkit-scrollbar {
@@ -614,19 +646,16 @@ margin:5px;
 text-align:center;
 display: inline-block;
 font-family: "Poppins", sans-serif;
-
-
-
+font-size:8pt;
 
 img{
-width: 100px;
-height: 100px;
+width: 120px;
+height: 120px;
 object-fit:cover;
 }
 
 h4{
 color: #000000;
-font-size:12pt;
 }
 
 h5{
@@ -707,6 +736,6 @@ margin: 5px;
 
 
 
- export default MusicSearch;
+ export default Musicsearch;
 
 

@@ -12,11 +12,11 @@ import Images from '../Images';
 import Footer from '../Footer';
 import ReactPlayer from 'react-player'
 import Head from 'next/head'
+import Meta from '../Heads';
 
 
 
 export const getStaticPaths =  async() => {
-
     var options = {
         method: 'GET',
         url: process.env.NEXT_PUBLIC_GET_ALL_POST,
@@ -60,17 +60,12 @@ const [update, setUpdate] = useState(false);
 return(
     <>
      <Header/>
-    {article[0] != undefined ?
+       {article[0] != undefined ?
        <>
-        <Head>
-            <title>Search result {article[0].UserPost.title}</title>
-            <meta name="description" content={article[0].UserPost.writeup.substring(0,100)} />
-            <meta property="og:title" content={article[0].UserPost.title} />
-            <meta property="og:description" content={article[0].UserPost.writeup.substring(0,100)} />
-            <meta property="og:url" content={`https://webfly.click`} />
-            <meta property="og:type" content="website" />
-            <link rel="icon" href="/favicon.ico" />
-        </Head>
+            <Meta title={`Search result ${article[0].UserPost.title}`}
+                  desc={article[0].UserPost.writeup.substring(0,100)}
+                  web_url={`https://webfly.click`}  href={"/favicon.ico"} />
+
         <Container>
            <Content>
            {article[0].UserPost.image ? (

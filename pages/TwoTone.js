@@ -3,9 +3,7 @@ import styled from "styled-components";
 
 const TwoTone = (props) =>{
     return(
-            <Container>
-                
-            </Container>
+            <Container/>
     )
 }
 
@@ -19,8 +17,7 @@ clip-path: ellipse(75% 100% at 50% 0%);
 
 
 @media(max-width:768px){
-height: 70vh;  
-clip-path: ellipse(90% 70% at 50% 0%);
+display:none;
 }
 `;
 

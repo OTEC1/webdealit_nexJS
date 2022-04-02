@@ -2,7 +2,7 @@ import { useState ,useRef, useEffect} from 'react';
 import {RiAccountCircleFill, RiAccountCircleLine, RiArrowDownLine,RiMenu3Line, RiArrowLeftRightLine, RiArrowRightCircleLine, RiTv2Line, RiMusic2Line, RiNavigationLine, RiSearch2Line, RiShoppingBag2Fill, RiShoppingBag3Line, RiUser2Line, RiVideoLine, RiCloseLine} from 'react-icons/ri'
 import {RiAlbumLine, RiContactsBook2Line, RiDownloadCloudLine, RiHeadphoneLine, RiMenu2Line, RiPlayList2Line, RiSortDesc, RiSpeaker2Line, RiUpload2Line} from 'react-icons/ri'
 import { connect } from 'react-redux';
-import {signOutGoogleApi, signOutCustomApi,getUserAuth}  from  '../actions'
+import {signOutGoogleApi, signOutCustomApi,getUserAuth, format_text}  from  '../actions'
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import Link from 'next/link'
@@ -96,16 +96,18 @@ const  Header = (props) => {
     
 
     const runquery = () => {
-        console.log(sessionStorage.getItem("View"))
-        if(sessionStorage.getItem("View") === "music")
-            if(query.trim().length > 0)
-               history.push("/Musicsearch?M="+query.toLowerCase());
-        else
-          if(sessionStorage.getItem("View") === "streaming")
-                history.push("/streamingquery/"+query.toLowerCase());
+        console.log(sessionStorage.getItem("View"));
+        if(sessionStorage.getItem("View") === "music"){
+             if(query.trim().length > 0){
+                 let q = query.toLowerCase().replace(/ /g,'+');
+                 history.push("/Search/" + q);
+             }
+        }else
+           if(sessionStorage.getItem("View") === "streaming")
+                history.push("/VSearch/"+query.toLowerCase());
         else
           if(sessionStorage.getItem("View") === "home")
-                history.push("/homequery/"+query.toLowerCase());
+                history.push("/Bsearch/"+query.toLowerCase());
 
     }
 
@@ -262,11 +264,11 @@ const  Header = (props) => {
                     <div>
                         <input placeholder='Search for music,post,video' value={query}  onChange={(e) => setQuery(e.target.value)} />
                     </div>
-                    <SearchIcon onClick={(e) => runquery()}>
-                        <RiSearch2Line
-                            size={15}
-                            color='#000'/>
-                    </SearchIcon>
+                        <SearchIcon onClick={(e) => runquery()}>
+                            <RiSearch2Line
+                                size={15}
+                                color='#000'/>
+                        </SearchIcon>
                 </Search>
 
                 <Nav>
