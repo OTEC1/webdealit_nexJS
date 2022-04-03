@@ -54,53 +54,31 @@ import { format_text } from '../actions'
 
 
     async function GETSONG(query){
+        let u = query.split('+').join(' ').toLowerCase();
+        console.log(u);
+        let artist;
+                axios.get(process.env.NEXT_PUBLIC_GET_SONGS)
+                .then(res => {
+                        res.data.message.map(v=>{
+                            console.log(v.Music.music_title,"YAS")
+                             if(v.Music.music_title == u){
+                                  musiclist.push(v);   
+                                  artist =  v.Music.music_artist
+                             }
+                             if(v.Music.music_artist == artist){
+                                artisitmusiclist.push(v);   
+                           }
+                        })
+                        setOtherMusic(artisitmusiclist);
+                        setMusic(musiclist); 
+                    }).catch(err => {
+                            console.log(err)
+                    })
        
-        var options = {
-            method: 'POST',
-            url: "https://us-central1-grelots-ad690.cloudfunctions.net/webdealitGetMusicByMusictitle",
-            data: {Music:{music_title: query}}
-          };
-        const  res = await axios.request(options);
-        const data = await res.data;
-
-
-        var options2 = {
-            method: 'GET',
-            url: process.env.NEXT_PUBLIC_GET_SONGS
-          };
-        const  res2 = await axios.request(options2);
-        const data2 = await res2.data;
-
-
-        stal.push(data.message);
-        stal2 = data2.message;
-        FontEndDB(format_text(query.toLowerCase())); 
     }
     
 
-    function FontEndDB(query){
-        let artist;
-        stal.map((v,i) => {
-                 if(v[0].Music.music_title == query){
-                         musiclist.push(v);
-                         artist = v[0].Music.music_artist;
-               }
-        })
-
-     
-            stal2.map((v,i) => {
-               if(v.Music.music_artist == artist){
-                   if(v != undefined)
-                      artisitmusiclist.push(v);
-               }
-            })
-       
-       setOtherMusic(artisitmusiclist);
-       setMusic(musiclist);
-       
-
-      console.log( artisitmusiclist)
-    }
+ 
 
     const SortDiv = () => {
 
@@ -128,8 +106,8 @@ import { format_text } from '../actions'
     return (
         <>
           <Head>
-                    {music[0] != undefined ?
-                      music[0].map((v) => 
+                    {music != undefined ?
+                      music.map((v) => 
                          <> 
                             <title>Search result: {v.Music.music_title} By {v.Music.music_artist}</title>
                             <meta name="description" content={`Downlaod ${v.Music.music_title} by {music.Music.music_artist} @ webfly.click`} />
@@ -308,8 +286,8 @@ import { format_text } from '../actions'
 
                         <MusicMediasResult>
 
-                            {music[0] != undefined ? 
-                               music[0].map((v) =>
+                            {music != undefined ? 
+                               music.map((v) =>
                                         <>
                                         <LEFTWING>
                                            <img src={process.env.NEXT_PUBLIC_BASE_URL+v.Music.music_thumbnail}/>

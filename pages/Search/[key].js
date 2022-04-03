@@ -26,9 +26,10 @@ export const getStaticPaths = async () => {
    
    
     const paths = data.message.map(v => {
-        return { params: {key : v.Music.music_title} }
+        return { params: {key : v.Music.music_title.replace(/ /g,'+')} }
     });
 
+    console.log(paths,"HERE");
     return {
         paths,
         fallback: false
@@ -37,7 +38,7 @@ export const getStaticPaths = async () => {
 
 
 export const getStaticProps = async (context) => {
-    const title = context.params.key;
+    const title = context.params.key.replace(/ /g,'+');
     var options = {
         method: 'POST',
         url: process.env.NEXT_PUBLIC_GET_SONG_BY_TITLE,
@@ -45,7 +46,7 @@ export const getStaticProps = async (context) => {
       };
     const  res = await axios.request(options);
     const data = await res.data; 
-    //console.log(data.message.length,"ALSO");
+    //console.log(title,"ALSO");
 
     return {
         props: {song: data.message}
@@ -57,6 +58,7 @@ export const getStaticProps = async (context) => {
  const MusicResult = ({song}) => {
 
     const musiclist = []; const artisitmusiclist = [];
+    const [bucket, setbucket] = useState('');
     const [music, setMusic] = useState([]);
     const [othermusic, setOtherMusic] = useState([]);
     const [share, setShare] = useState(false);
@@ -80,9 +82,9 @@ export const getStaticProps = async (context) => {
     }    
     
     useEffect(() => {
-     let url = window.location.href;
-     console.log(url);
-       FontEndDB(url.substring(url.lastIndexOf("/")+1).toLowerCase());
+       let url = window.location.href;
+        setbucket(url.substring(url.lastIndexOf("/")+1).split(' ').join('+').toLowerCase());
+        FontEndDB(url.substring(url.lastIndexOf("/")+1).split('+').join(' ').toLowerCase());
         setMusic(musiclist);
         setOtherMusic(artisitmusiclist);
     },[song]);
@@ -90,6 +92,7 @@ export const getStaticProps = async (context) => {
     
     
     function FontEndDB(query){
+        console.log(query);
         let artist = "";
         song.map((v,i) => {
                 if(v.Music.music_title == query){
@@ -134,7 +137,6 @@ export const getStaticProps = async (context) => {
    
     return (
         <>
-       
          <Head>
                     {music[0] != undefined ?
                         <>
@@ -162,7 +164,7 @@ export const getStaticProps = async (context) => {
                             <div>
                                 
                                 <FacebookShareButton
-                                    url={`https://us-central1-grelots-ad690.cloudfunctions.net/dynamicpostRender?i=${process.env.NEXT_PUBLIC_BASE_URL+music[0].Music.music_thumbnail}&a=${music[0].Music.music_artist.toString().toUpperCase()}&t=${window.location.href.substring(window.location.href.lastIndexOf("/")+1)}&d=${music.doc_id}&s=m&m=${music.email}`} 
+                                    url={`https://us-central1-grelots-ad690.cloudfunctions.net/dynamicpostRender?i=${process.env.NEXT_PUBLIC_BASE_URL+music[0].Music.music_thumbnail}&a=${music[0].Music.music_artist.toString().toUpperCase()}&t=${bucket}&d=${music.doc_id}&s=m&m=${music.email}`} 
                                     quote={music[0].Music.music_artist.toUpperCase()+":  "+music[0].Music.music_title+"  Download @ webfly.click"}
                                     onClick={(e) => setShare(false)}>
                                 <FacebookIcon round size={35}/>
@@ -176,7 +178,7 @@ export const getStaticProps = async (context) => {
                             </div>
                     
                             <WhatsappShareButton
-                               url={`https://us-central1-grelots-ad690.cloudfunctions.net/dynamicpostRender?i=${process.env.NEXT_PUBLIC_BASE_URL+music[0].Music.music_thumbnail}&a=${music[0].Music.music_artist.toString().toUpperCase()}&t=${window.location.href.substring(window.location.href.lastIndexOf("/")+1)}&d=${music.doc_id}&s=m&m=${music.email}`} 
+                                url={`https://us-central1-grelots-ad690.cloudfunctions.net/dynamicpostRender?i=${process.env.NEXT_PUBLIC_BASE_URL+music[0].Music.music_thumbnail}&a=${music[0].Music.music_artist.toString().toUpperCase()}&t=${bucket}&d=${music.doc_id}&s=m&m=${music.email}`} 
                                 quote={music[0].Music.music_artist.toUpperCase()+":  "+music[0].Music.music_title+"  Download @ webfly.click"}
                                 onClick={(e) => setShare(false)}>
                             <WhatsappIcon round size={35}/>
@@ -189,7 +191,7 @@ export const getStaticProps = async (context) => {
                                     Share via
                                 </div>
                                 <TwitterShareButton
-                                      url={`https://us-central1-grelots-ad690.cloudfunctions.net/dynamicpostRender?i=${process.env.NEXT_PUBLIC_BASE_URL+music[0].Music.music_thumbnail}&a=${music[0].Music.music_artist.toString().toUpperCase()}&t=${window.location.href.substring(window.location.href.lastIndexOf("/")+1)}&d=${music.doc_id}&s=m&m=${music.email}`} 
+                                    url={`https://us-central1-grelots-ad690.cloudfunctions.net/dynamicpostRender?i=${process.env.NEXT_PUBLIC_BASE_URL+music[0].Music.music_thumbnail}&a=${music[0].Music.music_artist.toString().toUpperCase()}&t=${bucket}&d=${music.doc_id}&s=m&m=${music.email}`}  
                                     quote={music[0].Music.music_artist.toUpperCase()+":  "+music[0].Music.music_title+"  Download @ webfly.click"}
                                     onClick={(e) => setShare(false)}>
                                 <TwitterIcon round size={35}/>

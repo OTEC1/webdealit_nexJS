@@ -132,10 +132,7 @@ const  Header = (props) => {
     }
   
 
-    //console.log(props.user);
 
-    
-    
 
     return (
           <>
