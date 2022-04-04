@@ -9,6 +9,13 @@ const Meta = (props) => {
         <meta property="og:description" content={props.desc} />
         <meta property="og:url" content={props.web_url} />
         <meta property="og:type" content="website" />
+        <meta property='og:site_name' content={props.web_url}/>
+        <meta name='twitter:card' content='summary'/>
+        <meta name="twitter:title" content={props.title}/>
+        <meta name="twitter:description" content={props.desc}/>
+        <meta name='twitter:site' content={props.web_url}/>
+        <meta name='twitter:creator' content={props.web_url}/>
+        <meta httpEquiv='cache-control' content='no-cache'/>
         <link rel="icon" href={props.href} />
       </Head>
      );

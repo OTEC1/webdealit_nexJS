@@ -13,6 +13,7 @@ import {useLocation} from 'react-router-dom'
 import Swal from 'sweetalert2'
 import { BiDisc, BiTime, BiUser } from 'react-icons/bi'
 import {FacebookShareButton,TwitterShareButton,WhatsappShareButton,FacebookIcon,WhatsappIcon,TwitterIcon} from 'react-share'
+import Sidebar from '../Sidebar'
 
 
 
@@ -40,22 +41,21 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async (context) => {
     const title = context.params.key.replace(/ /g,'+');
     var options = {
-        method: 'POST',
-        url: process.env.NEXT_PUBLIC_GET_SONG_BY_TITLE,
-        data: {Music:{music_title: title}}
+        method: 'GET',
+        url: process.env.GET_SONG
       };
     const  res = await axios.request(options);
     const data = await res.data; 
     //console.log(title,"ALSO");
 
     return {
-        props: {song: data.message}
+        props: {song:data.message, title:title}
     }
 }
 
 
 
- const MusicResult = ({song}) => {
+ const MusicResult = ({song,title}) => {
 
     const musiclist = []; const artisitmusiclist = [];
     const [bucket, setbucket] = useState('');
@@ -82,18 +82,15 @@ export const getStaticProps = async (context) => {
     }    
     
     useEffect(() => {
-       let url = window.location.href;
-        setbucket(url.substring(url.lastIndexOf("/")+1).split(' ').join('+').toLowerCase());
-        FontEndDB(url.substring(url.lastIndexOf("/")+1).split('+').join(' ').toLowerCase());
-        setMusic(musiclist);
-        setOtherMusic(artisitmusiclist);
+        setbucket(title.toLowerCase());
+        FontEndDB(title.split('+').join(' ').toLowerCase());
     },[song]);
 
     
     
     function FontEndDB(query){
-        console.log(query);
-        let artist = "";
+        console.log(query, song);
+        let artist;
         song.map((v,i) => {
                 if(v.Music.music_title == query){
                     if(v != undefined){
@@ -104,11 +101,14 @@ export const getStaticProps = async (context) => {
         })
 
         song.map((v,i) => {
-            if(v.Music.music_artist == artist){
+            if(artist == v.Music.music_artist){
                 if(v != undefined)
                      artisitmusiclist.push(v);
             }
        })
+
+       setMusic(musiclist);
+       setOtherMusic(artisitmusiclist);
 
     }
 
@@ -202,96 +202,7 @@ export const getStaticProps = async (context) => {
              :<p></p>}     
              </ShareDialog> :""} 
                 
-                    <SideNav>
-                            <Grooves>
-                                Groove
-                            </Grooves>
-
-                            <MenuBar>
-                                <RiMenu2Line/>
-                            </MenuBar>
-
-                            <HR>
-                                <hr/>
-                            </HR>
-                            <table>
-
-                                <tr>
-                                    <td>
-                                        <TabInfo>
-                                        <RiHeadphoneLine/> &nbsp;&nbsp; Your Groove
-                                        </TabInfo>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <SubContainer>
-                                        <RiSortDesc  onClick={(e)=> SortDiv(e)}/> Sort By
-                                        </SubContainer>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                       <SubContainer>
-                                        <RiDownloadCloudLine  onClick={(e) => GetDownloadHighCount(e)}/> Trending
-                                        </SubContainer>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                    <SubContainer>
-                                        <RiAlbumLine   onClick={(e) => GetAlbumPlaylist(e)}/> Album
-                                        </SubContainer>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <SubContainer>
-                                        <RiPlayList2Line onClick={(e) => SortByGenre(e)}/> Genre
-                                        </SubContainer>
-                                    </td>
-                                </tr>
-                            </table>  
-
-                            <HR>
-                                <hr/>
-                            </HR>
-
-                            <table>
-                                <tr>
-                                    <td>
-                                        <TabInfo1>
-                                            QUICK ACCESS
-                                        </TabInfo1>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <SubContainer>
-                                        <RiSpeaker2Line/> Promote Music
-                                        </SubContainer>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                    <SubContainer>
-                                        <RiUpload2Line/> Upload Music
-                                        </SubContainer>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                    <SubContainer>
-                                        <RiContactsBook2Line/> Contact Webfly
-                                        </SubContainer>
-                                    </td>
-                                </tr>
-                            
-                            </table>  
-
-
-                    </SideNav>
+                    <Sidebar/>
                     
                     <MusicBanner>
                         <TopMostPart>
@@ -434,69 +345,6 @@ width:100px;
 }
 }
  `;
-
-
-const SideNav = styled.div`
-width:20%;
-height: 100vh;
-background:#f2f5fc;
-margin-top:137px;
-padding-left:18px;
-
-@media(max-width:968px){
-display: none;
-}
-`;
-
-
-const SubContainer = styled.div`
-margin-top:15px;
-color: #b8b9be; 
-font-size:10pt;
-`;
-
-
-const TabInfo = styled.div`
-display:flex;
-justify-content:center;
-align-items:center;
-text-align:center;
-font-weight:700;
-color:#b8b9be;
-margin-top:10px;
-`;
-
-
-const TabInfo1 = styled(TabInfo)`
-margin-left:-20px;
-
-`;
-
-
-const Grooves = styled.div`
-width: 70%;
-padding-top:20px;
-font-weight:800;
-font-family: "Poppins", sans-serif;
-`;
-
-
-const MenuBar = styled(Grooves)`
-font-weight:none;
-font-size:20pt;
-color: #b8b9be;
-
-
-`;
-
-
-const HR = styled(Grooves)`
-font-weight:none;
-color: #b8b9be;
-`;
-
-
-
 
 const MusicBanner = styled.div`
 width:80%;

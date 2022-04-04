@@ -13,9 +13,8 @@ import { useRouter } from "next/router";
 
 
 
-
 const Top = (props) => {
-    var a  = 170, b = 100; 
+    var a  = 160, b = 290; 
     const [scrollPostion, setScrollPosition] = useState(0);
     const [L1, setL1] = useState([]);
     const [L2, setL2] = useState([]);
@@ -52,16 +51,6 @@ const Top = (props) => {
       let frame = x.frame;
       let useremail=x.useremail;
         updatePostlikes(1,0,1,useremail,x.doc_id_a,x.doc_id_b);
-        sessionStorage.setItem("cloud",x.cloudinaryPub);
-        sessionStorage.setItem("doc_id_a",x.doc_id_a);
-        sessionStorage.setItem("doc_id_b",x.doc_id_b);
-        sessionStorage.setItem("cloudinaryPub",x.cloudinaryPub);
-        sessionStorage.setItem("exifData",x.exifData);
-        sessionStorage.setItem("media",x.media);
-        sessionStorage.setItem("writeup",x.writeup);
-        sessionStorage.setItem("date_time",x.date_time);
-        sessionStorage.setItem("likes",x.likes);
-        sessionStorage.setItem("title",x.title);
     }
 
 
@@ -79,178 +68,102 @@ const Top = (props) => {
      <Container>
              <TopSection>
                 <TopLeftinnerDiv>
-                  <SectionTab>
-                    <RiLiveFill   size={20}  color="red"/> <h4>Explore feeds</h4>
-                   </SectionTab>
+                    <SectionTab>
+                        <div>
+                          <RiLiveFill   size={20}  color="red"/> Explore feeds
+                        </div>
+                    </SectionTab> 
                     <Slider autoplay={1} 
                           duration={4500} 
                           previousButton={<RiArrowLeftCircleLine
                           color="red"/>} 
                           nextButton={<RiArrowRightCircleLine 
                           color="red"/>}>
-                          {L1.length <= 0 ?<p></p>
-                            : 
-                           L1.map((value, index) => value.UserPost.image ?
-                            <div>
-                                  <PosterDetails>
-                                    <img id="userImg" src={value.User.user_img !== "icons" ?  
-                                        value.User.user_img : "images/customSignInbackground.png"} onClick={UserPage}/>
-                                        &nbsp;&nbsp;
-                                    {value.User.useremail}
-                                  </PosterDetails>
+                           {L1.map((value, index) => value.UserPost.image ?
+                              <div id="Contain">
 
+                                  <div id="post_author">
 
-                                    <BrowserView>
+                                  </div>
+
+                                  <div id="image_cell">
+                                          <BrowserView>
+                                            <CloudinaryContext cloudName="otecdealings">
+                                            <Image   alt={value.UserPost.title} publicId={value.UserPost.cloudinaryPub}/>
+                                            </CloudinaryContext>
+                                          </BrowserView>
+                                   </div>
+                                   <div id="image_cell">
+                                      <MobileView>
                                         <CloudinaryContext cloudName="otecdealings">
-                                                <Image   alt={value.UserPost.title}   publicId={value.UserPost.cloudinaryPub}/>
+                                                <Image alt={value.UserPost.title}   publicId={value.UserPost.cloudinaryPub}/>
                                         </CloudinaryContext>
-                                    </BrowserView>
+                                      </MobileView>
+                                    </div>
+                                 
 
-                                    <MobileView>
-                                         <CloudinaryContext cloudName="otecdealings">
-                                                <Image alt={value.UserPost.title}  width="100%" publicId={value.UserPost.cloudinaryPub}>
-                                                   <Transformation  angle={value.UserPost.exifData} />
-                                                 </Image>
-                                        </CloudinaryContext>
-                                    </MobileView>   
-
-                                  
-                                       <>
-                                        <BrowserView>
-                                          <Link href={`/Read/${format_text(value.UserPost.title)}`}>
-                                            <WriteUp onClick={(e) => navigates({frame:"Pictureframe",useremail:value.User.useremail, doc_id_a:value.UserPost.doc_id_a,doc_id_b:value.UserPost.doc_id_b, title:value.UserPost.title, cloudinaryPub: value.UserPost.cloudinaryPub, exifData: value.UserPost.exifData, media: value.UserPost.image, writeup:value.UserPost.writeup, date_time:value.UserPost.date_time, likes:value.UserPost.likes, views:value.UserPost.views})}>
-                                                {value.UserPost.writeup.length > a ? <div>{value.UserPost.writeup.toString().substring(0, a)} ...Read more</div> :<div>{value.UserPost.writeup} <RiSendPlaneFill/></div>}
-                                            </WriteUp>
-                                            </Link>
-                                        </BrowserView>
+                                  <div id="writeup_and_reaction">
+                                   <Link href={`/Read/${format_text(value.UserPost.title)}`}>
                                         <MobileView>
-                                        <Link href={`/Read/${format_text(value.UserPost.title)}`}>
-                                            <WriteUp onClick={(e) => navigates({frame:"Pictureframe",useremail:value.User.useremail, doc_id_a:value.UserPost.doc_id_a,doc_id_b:value.UserPost.doc_id_b, title:value.UserPost.title, cloudinaryPub: value.UserPost.cloudinaryPub, exifData: value.UserPost.exifData, media: value.UserPost.image, writeup:value.UserPost.writeup, date_time:value.UserPost.date_time, likes:value.UserPost.likes, views:value.UserPost.views})}>
-                                                {value.UserPost.writeup.length > b ? <div>{value.UserPost.writeup.toString().substring(0, b)} ...Read more</div> :<div>{value.UserPost.writeup} <RiSendPlaneFill/></div>}
-                                            </WriteUp>
-                                            </Link>
+                                           <div id="write" onClick={(e)=>  navigates({frame:"Pictureframe",useremail:value.User.useremail, doc_id_a:value.UserPost.doc_id_a,doc_id_b:value.UserPost.doc_id_b, title: value.UserPost.title, cloudinaryPub: value.UserPost.cloudinaryPub, exifData: value.UserPost.exifData, media: value.UserPost.image, writeup: value.UserPost.writeup, date_time:value.UserPost.date_time, likes:value.UserPost.likes, views:value.UserPost.views})}>
+                                                  {value.UserPost.writeup.length > a ? <>{value.UserPost.writeup.toString().substring(0, a)} ...<span>Read more</span></>
+                                                  :<>{value.UserPost.writeup} <RiSendPlaneFill/></>}
+                                            </div>   
                                         </MobileView>
-                                       </>
-                                   
+                                   </Link>
 
-                                    <Reactions>
+                                   <Link href={`/Read/${format_text(value.UserPost.title)}`}>
+                                        <BrowserView>
+                                           <div id="write" onClick={(e)=>  navigates({frame:"Pictureframe",useremail:value.User.useremail, doc_id_a:value.UserPost.doc_id_a,doc_id_b:value.UserPost.doc_id_b, title: value.UserPost.title, cloudinaryPub: value.UserPost.cloudinaryPub, exifData: value.UserPost.exifData, media: value.UserPost.image, writeup: value.UserPost.writeup, date_time:value.UserPost.date_time, likes:value.UserPost.likes, views:value.UserPost.views})}>
+                                                  {value.UserPost.writeup.length > b ? <>{value.UserPost.writeup.toString().substring(0, b)} ...<span>Read more</span></>
+                                                  :<>{value.UserPost.writeup} <RiSendPlaneFill/></>}
+                                            </div>
+                                        </BrowserView>
+                                   </Link>
+
+
+                                    <div id="reaction">
                                       <div>
-                                        <RiThumbUpFill size={20}/>&nbsp;{format(value.UserPost.likes)}
+                                         {value.UserPost.views}
+                                         &nbsp;
+                                        <RiEyeFill/>
                                       </div>
-                                       <div>
-                                        <RiEyeFill   size={20}/>&nbsp;{format(value.UserPost.views)}
-                                      </div>     
-                                    </Reactions>
+
+                                      <div>
+                                       {value.UserPost.likes}
+                                       &nbsp;
+                                       <RiThumbUpFill/>
+                                      </div>
+                                    </div>
+
+                                  </div>
                                </div>
                               :
-                            value.UserPost.video ?
-                            <div>
-
-                              <PosterDetails>
-                                 <img id="userImg" src={value.User.user_img !== "icons" ?  
-                                    value.User.user_img : "images/customSignInbackground.png"} onClick={UserPage}/>
-                                &nbsp;&nbsp;
-                                {value.User.useremail}
-                              </PosterDetails>
-
-                                <BrowserView>
-                                      <CloudinaryContext cloudName="otecdealings">
-                                              <Image  alt={value.UserPost.title}   height="500"  width="500" publicId={value.UserPost.cloudinaryPub}/>
-                                      </CloudinaryContext>
-                                </BrowserView>
-
-
-                                <MobileView>
-                                     <CloudinaryContext cloudName="otecdealings">
-                                              <Image  alt={value.UserPost.title}   height="300"  width="100%" publicId={value.UserPost.cloudinaryPub}>
-                                                  <Transformation  angle={value.UserPost.exifData} />
-                                              </Image>
-                                      </CloudinaryContext>
-                                </MobileView>
-                                     
-                            
-                                <Link href={`/Read/${format_text(value.UserPost.title)}`}>
-                                    <WriteUp onClick={(e)=> 
-                                     navigates({frame:"Videoframe",useremail:value.User.useremail, doc_id_a:value.UserPost.doc_id_a,doc_id_b:value.UserPost.doc_id_b, title: value.UserPost.title, cloudinaryPub: value.UserPost.cloudinaryPub, exifData: value.UserPost.exifData, media: value.UserPost.video, writeup: value.UserPost.writeup, date_time:value.UserPost.date_time, likes:value.UserPost.likes,views:value.UserPost.views})}>
-                                        {
-                                        value.UserPost.writeup.length > a ?
-                                        <div>{value.UserPost.writeup.toString().substring(0, a)} ...<span>Read more</span></div>
-                                        :
-                                        <div>{value.UserPost.writeup} <RiSendPlaneFill/></div>
-                                        }
-                                    </WriteUp>
-                                 </Link>
-
-                                    <Reactions>
-                                      <div>
-                                      <RiThumbUpFill size={20}/>&nbsp;{format(value.UserPost.likes)}
-                                      </div>
-                                     
-                                     <div>
-                                       <RiEyeFill   size={20}/>&nbsp;{format(value.UserPost.views)}
-                                     </div>     
-                                    </Reactions>
-
-                            </div>
-                              :
-                            value.UserPost.youtubeLink ?
-                            <div>
-
-                              <PosterDetails>
-                                 <img id="userImg" src={value.User.user_img !== "icons" ?  
-                                    value.User.user_img : "images/customSignInbackground.png"} onClick={UserPage}/>
-                                &nbsp;&nbsp;
-                                {value.User.useremail}
-                              </PosterDetails>
-
-                                  <BrowserView>
-                                    <ReactPlayer  alt={value.UserPost.title}   width="100%"  height="500px" url={value.UserPost.youtubeLink}  controls  />
-                                  </BrowserView>
-
-                                  <MobileView>
-                                    <ReactPlayer  alt={value.UserPost.title}   width="100%"  height="320px" url={value.UserPost.youtubeLink}  controls  />
-                                  </MobileView>
-                                  
-                                  
-                                  <Link href={`/Read/${format_text(value.UserPost.title)}`}>
-                                    <WriteUp onClick={(e)=> 
-                                       navigates({frame:"Playerframe",useremail:value.User.useremail, doc_id_a:value.UserPost.doc_id_a,doc_id_b:value.UserPost.doc_id_b, title: value.UserPost.title, cloudinaryPub: value.UserPost.cloudinaryPub, exifData: value.UserPost.exifData, media: value.UserPost.youtubeLink, writeup: value.UserPost.writeup, date_time:value.UserPost.date_time, likes:value.UserPost.likes, views:value.UserPost.views})}>
-                                        {
-                                        value.UserPost.writeup.length > a ?
-                                        <div>{value.UserPost.writeup.toString().substring(0, a)} ...<span>Read more</span></div>
-                                        :
-                                        <div>{value.UserPost.writeup} <span>See more</span></div>
-                                        }
-                                    </WriteUp>
-                                    </Link>
-
-                                    <Reactions>
-                                      <div>
-                                      <RiThumbUpFill size={20}/>&nbsp;{format(value.UserPost.likes)}
-                                      </div>
-                                     
-                                     <div>
-                                       <RiEyeFill   size={20}/>&nbsp;{format(value.UserPost.views)}
-                                     </div>     
-                                    </Reactions>
-
-                            </div>
-                              :
-                            <p></p>
-                          )
-                          }
-                  </Slider>
+                             <p/>
+                          )}
+                    </Slider>
                 </TopLeftinnerDiv>
+
+
+
+
 
                 <AdRunner>
                     ADVERTISMENT SPACE
                 </AdRunner>
 
-                 <TopOuterDiv onScroll={onScrollRecoder} ref={myref}>      
+
+
+
+
+
+              <RightDiv>
                     <SectionTab>
-                      <RiTv2Line   size={20}  color="red"/> <h4>Sidebar feeds</h4>
+                        <div>
+                          <RiTv2Line   size={20}  color="red"/> Sidebar feeds
+                        </div>
                     </SectionTab>
-                    <TopRightinnerDiv>
+                   <TopRightinnerDiv onScroll={onScrollRecoder} ref={myref}> 
                       {L2.length <= 0 ? <p></p>
                       :
                       L2.map((value, index) => 
@@ -262,22 +175,21 @@ const Top = (props) => {
                                             &nbsp;&nbsp;
                                           {value.User.useremail}
                                      </div>
-                                     <BrowserView>
-                                        <CloudinaryContext cloudName="otecdealings">
-                                              <div>
-                                                <Image  alt={value.UserPost.title}  width="100%"  height={index === 0 ? "300" : "200"} publicId={value.UserPost.cloudinaryPub}/>
-                                              </div>
-                                        </CloudinaryContext>
-                                      </BrowserView>
+                                          <BrowserView>
+                                              <CloudinaryContext cloudName="otecdealings">
+                                                    <div>
+                                                      <Image  id="one1" alt={value.UserPost.title}  width="100%"  height={index === 0 ? "300" : "200"} publicId={value.UserPost.cloudinaryPub}/>
+                                                    </div>
+                                              </CloudinaryContext>
+                                            </BrowserView>
 
-                                      <MobileView>
-                                        <CloudinaryContext cloudName="otecdealings">
-                                                <Image alt={value.UserPost.title}   width="100%"  height="300" publicId={value.UserPost.cloudinaryPub}>
-                                                  <Transformation    angle={value.UserPost.exifData} />
-                                                </Image>
-                                        </CloudinaryContext>
-                                      </MobileView>
-
+                                            <MobileView>
+                                              <CloudinaryContext cloudName="otecdealings">
+                                                      <Image alt={value.UserPost.title}   width="100%"  height="300" publicId={value.UserPost.cloudinaryPub}>
+                                                        <Transformation    angle={value.UserPost.exifData} />
+                                                      </Image>
+                                              </CloudinaryContext>
+                                            </MobileView>
                                       <Link href={`/Read/${format_text(value.UserPost.title)}`}>
                                         <RightSideWriteUp  
                                             onClick={(e)=>  navigates({frame:"Pictureframe",useremail:value.User.useremail, doc_id_a:value.UserPost.doc_id_a,doc_id_b:value.UserPost.doc_id_b, title: value.UserPost.title, cloudinaryPub: value.UserPost.cloudinaryPub, exifData: value.UserPost.exifData, media: value.UserPost.image, writeup: value.UserPost.writeup, date_time:value.UserPost.date_time, likes:value.UserPost.likes, views:value.UserPost.views})}>
@@ -290,76 +202,10 @@ const Top = (props) => {
                                         </RightSideWriteUp>
                                    </Link>
                                   </Locals>
-                                 :
-                             value.UserPost.video ?
-                         
-                                <Locals>
-                                  <div  id="UserProfile1">
-                                       <img id="userImg" src={value.User.user_img !== "icons" ?  
-                                            value.User.user_img : "images/customSignInbackground.png"} onClick={UserPage}/>
-                                            &nbsp;&nbsp;
-                                          {value.User.useremail}
-                                  </div>
-
-                                  <BrowserView>
-                                  <CloudinaryContext cloudName="otecdealings">
-                                          <div>
-                                            <Image alt={value.UserPost.title}   width="100%"  height="200" publicId={value.UserPost.cloudinaryPub}/>
-                                          </div>
-                                    </CloudinaryContext>
-
-                                  </BrowserView>
-                                   
-
-
-                                    <MobileView>
-                                        <CloudinaryContext cloudName="otecdealings">
-                                                <Image alt={value.UserPost.title}   width="100%"  height="300" publicId={value.UserPost.cloudinaryPub}>
-                                                   <Transformation  angle={value.UserPost.exifData} />
-                                                </Image>
-                                        </CloudinaryContext>
-                                     </MobileView>
-
-                                     <Link href={`/Read/${format_text(value.UserPost.title)}`}>
-                                      <RightSideWriteUp  
-                                          onClick={(e)=>   navigates({frame:"Videoframe",useremail:value.User.useremail, doc_id_a:value.UserPost.doc_id_a,doc_id_b:value.UserPost.doc_id_b, title: value.UserPost.title, cloudinaryPub: value.UserPost.cloudinaryPub, exifData: value.UserPost.exifData, media: value.UserPost.video, writeup: value.UserPost.writeup, date_time:value.UserPost.date_time, likes:value.UserPost.likes, views:value.UserPost.views})}>
-                                        {
-                                        value.UserPost.writeup.length > a ?
-                                        <div>{value.UserPost.writeup.toString().substring(0, a)} ...<span>Read more</span></div>
-                                        :
-                                        <div>{value.UserPost.writeup} <RiSendPlaneFill/></div>
-                                         }
-                                      </RightSideWriteUp>
-                                     </Link>
-                                  </Locals>
-                          :
-                        value.UserPost.youtubeLink  ?
-                        <Locals>
-                          <div  id="UserProfile1">
-                               <img id="userImg" src={value.User.user_img !== "icons" ?  
-                                value.User.user_img : "images/customSignInbackground.png"} onClick={UserPage}/>
-                                &nbsp;&nbsp;
-                                {value.User.useremail}
-                          </div>
-                          <ReactPlayer  alt={value.UserPost.title}   width="100%"  height="100%" url={value.UserPost.youtubeLink}  controls  />
-                          <Link href={`/Read/${format_text(value.UserPost.title)}`}>
-                              <RightSideWriteUpYoutube   
-                                onClick={(e)=>   navigates({frame:"Playerframe",useremail:value.User.useremail, doc_id_a:value.UserPost.doc_id_a,doc_id_b:value.UserPost.doc_id_b, title: value.UserPost.title, cloudinaryPub: value.UserPost.cloudinaryPub, exifData: value.UserPost.exifData, media: value.UserPost.youtubeLink, writeup: value.UserPost.writeup, date_time:value.UserPost.date_time, likes:value.UserPost.likes, views:value.UserPost.views})}>
-                                {
-                                  value.UserPost.writeup.length > a ?
-                                  <div>{value.UserPost.writeup.toString().substring(0, a)} ...<span>Read more</span></div>
-                                  :
-                                  <div>{value.UserPost.writeup} <RiSendPlaneFill/></div>
-                                }
-                              </RightSideWriteUpYoutube>
-                            </Link>
-                        </Locals>
-                        :
-                      <p></p>
-                      )}
-
-                    </TopRightinnerDiv>
-                </TopOuterDiv> 
+                                  : "" 
+                                )}
+                       </TopRightinnerDiv>
+                    </RightDiv>
               </TopSection>
              
         </Container>
@@ -392,57 +238,29 @@ padding: 0px;
 const TopSection = styled.div`
 display: flex;
 flex-wrap:wrap;
-height: 70vh;
+height: 75vh;
 width: 100%;
-text-shadow: 2px 2px #4180FF;
 margin-top:0px;
-
 @media(max-width:768px){
 height: 50vh;
 }
-
 `;
 
-
-const TopLeftinnerDiv = styled.div`
-width: 50%;
-height:100%;
-
-div{
-display:flex;
-img{
-top:0;
-left:0;
-margin-top:0;
-margin-left:0;
-border-radius:15px;
-width:100%;
-height:100%;
-object-fit:cover;
-}
-}
-
-
-@media(max-width:768px){
-width: 100%;
-height: 90%; //Edit here for ad on homePage
-div{
-img{
-height:80%;
-}
-}
-}
-`;
 
 const SectionTab = styled.div`
 text-align:left;
-width: 45%;
+width: 25%;
 height: 25px;
-display: flex;
-
-h4{
+align-items:left;
+div{
 color:#f5f5f5;
+display: flex;
+justify-content:space-between;
 }
+@media(max-width:768px){
+width:35%;
+}
+
 `;
 
 
@@ -453,13 +271,13 @@ display: none;
 @media(max-width:768px){
 display: flex;
 box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
-height: 220px;
+height: 300px;
 width: 100%;
 margin-left:auto;
 margin-right:auto;
 justify-content:center;
 align-items:center;
-margin-top:20px;
+margin-top:100px;
 text-align:center;
 color:#FFF;
 }
@@ -468,95 +286,137 @@ color:#FFF;
 
 
 
-
-
-const PosterDetails = styled.div`
-position: absolute;
-width: 20%;
-height: 15px;
-top: 0;
-left:0;
-color:#fff;
-display: flex;
-margin: 10px;
-
-
-#userImg{
-border-radius:50%;
-height: 24px;
-width:24px;
-z-index:500;
-cursor: pointer;
-}
-
-`;
-
-
-
-const WriteUp = styled.div`
-position: absolute;
-font-family: "Poppins", sans-serif;
-width: 90%;
-height: 120px;
-bottom: 0;
-left:0;
-text-align:left;
-padding: 5px;
-color:#fff;
-font-weight:900;
-display: flex;
-justify-content:space-between;
-z-index:200;
-margin-bottom:50px;
-
-@media(max-width:768px){
-margin-bottom:110px;
-font-size:10pt;
-height: 70px;
-}
-`;
-
-
-const Reactions = styled.div`
-position: absolute;
-background: #fff;
-border-radius: 10px 0px 0px 10px;
-padding:5px;
-width: 20%;
-bottom: 0;
-right:0;
-display: flex;
-justify-content:space-between;
-color: #828282;
-margin-bottom:10px;
-margin-right:5px;
-
-div{
-display: flex;
-justify-content:center;
-text-align:center;
-align-items:center;
-}
-text-shadow: none;
-
-@media(max-width:768px){
-width: 30%; 
-margin-bottom:90px;
-}
-`;
-
-
-
-const TopOuterDiv = styled.div`
-height: 90%;
+const TopLeftinnerDiv = styled.div`
 width: 50%;
+height:100vh;
+min-height:100vh;
+max-height:100vh;
+position:relative;
+
+
+#Contain{
+width: 100%;
+height: 100%;
+display:flex;
+align-items:center;
+text-align:center;
 justify-content:center;
+
+#post_author{
+top:0;
+width:100%;
+height:30px;
+position:absolute;
+z-index:999;
+}
+
+#image_cell{
+width:100%;
+height:100%;
+position:absolute;
+border-radius:10px;
+img{
+width:100%;
+min-width:100%;
+max-width:100%
+height:100%;
+object-fit:cover;
+border-radius:10px;
+}
+}
+
+#writeup_and_reaction{
+background-image: linear-gradient(to top right,#1f505f, #07091C);
+width:100%;
+height:120px;
+position:absolute;
+bottom:0;
+left:0;
+#reaction{
+top:0;
+right:0;
+width:100px;
+height:30px;
+background:#fff;
+border-radius: 5px 0px 0px 5px;
+margin-top:5px;
+position:absolute;
+display:flex;
+justify-content:space-between;
+div{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:10px;
+
+}
+}
+#write{
+text-align:left;
+color:#fff;
+font-family: "Poppins", sans-serif;
+padding:5px;
+font-size:9pt;
+margin-top:35px;
+}
+}
+}
+
+
+
+@media(max-width:768px){
+width: 100%;
+height: 90%; //Edit here for ad on homePage
+min-height:90%;
+max-height:90%;
+#image_cell{
+position:absolute;
+border-radius:30px;
+img{
+width:100%;
+height:400px;
+min-height:400px;
+max-height:400px;
+object-fit:contain;
+}
+}
+#Contain{
+#writeup_and_reaction{
+margin-bottom:40px;
+}
+}
+}
+`;
+
+
+const RightDiv = styled.div`
+width: 50%;
+height:65vh;
+min-height:65vh;
+max-height:65vh;
+position:relative;
+@media(max-width:988px){
+width:100%;
+}
+`;
+
+
+const TopRightinnerDiv = styled.div`
 overflow-y:scroll;
 overflow-x:hidden;
-
+justify-content:center;
+height:90%;
+width:100%;
+display:flex;
+flex-wrap:wrap;
 
 ::-webkit-scrollbar {
 display: none;
+}
+& > *:first-of-type{
+width: 100%;
+height: 300px;
+margin: 5px;
 }
 
 @media(max-width:768px){
@@ -565,32 +425,16 @@ height: 130%;
 overflow-x:hidden;
 }
 
-`;
-
-
-const TopRightinnerDiv = styled.div`
-display: flex;
-flex-wrap:wrap;
-justify-content:center;
-height: 500px;
-
-& > *:first-of-type{
-width: 100%;
-height: 300px;
-margin: 5px;
-}
 
 `;
-
-
 
 const Locals = styled.div`
 width: 48%;
 margin: 2px;
 font-size:10pt;
 color:#fff;
+height:100%;
 position: relative;
-
 
 
 img{
@@ -609,7 +453,6 @@ color: #fff;
 font-weight:700;
 text-shadow: 2px 2px #4180FF;
 padding: 5px;
-
 #userImg{
 width: 24px;
 height: 24px;
@@ -620,7 +463,6 @@ border-radius:50%;
 @media(max-width:768px){
 width: 100%;
 height: 300px;
-
 }
 
 
@@ -642,36 +484,6 @@ display: flex;
 margin:2px;
 margin-top:-100px;
 `;
-
-
-
-
-
-const RightSideWriteUpYoutube = styled.div`
-position: relative;
-height: 30%;
-width: 100%;
-left: 0;
-bottom: 0;
-margin-top:-100px;
-color:#fff;
-text-align:left;
-padding:5px;
-font-weight:800;
-display: flex;
-line-height:1.99;
-div{
-width: 80%;
-}
-
-@media(max-width:768px){
-position:none;
-height: 80px;
-}
-`;
-
-
-
 
 
 

@@ -14,13 +14,13 @@ import Swal from 'sweetalert2'
 import { BiDisc, BiTime, BiUser } from 'react-icons/bi'
 import {FacebookShareButton,TwitterShareButton,WhatsappShareButton,FacebookIcon,WhatsappIcon,TwitterIcon} from 'react-share'
 import { format_text } from '../actions'
+import Sidebar from './Sidebar'
 
 
 
 
 
  const Musicsearch = (props) => {
-
     const musiclist = []; const artisitmusiclist = []; let stal= []; let stal2;
     const [music, setMusic] = useState([]);
     const [othermusic, setOtherMusic] = useState([]);
@@ -59,16 +59,18 @@ import { format_text } from '../actions'
         let artist;
                 axios.get(process.env.NEXT_PUBLIC_GET_SONGS)
                 .then(res => {
+
                         res.data.message.map(v=>{
-                            console.log(v.Music.music_title,"YAS")
                              if(v.Music.music_title == u){
                                   musiclist.push(v);   
-                                  artist =  v.Music.music_artist
-                             }
-                             if(v.Music.music_artist == artist){
-                                artisitmusiclist.push(v);   
-                           }
-                        })
+                                   artist =  v.Music.music_artist
+                              }    
+                           });
+                            res.data.message.map(v => {
+                              if(artist == v.Music.music_artist)
+                                 artisitmusiclist.push(v);
+                            });
+
                         setOtherMusic(artisitmusiclist);
                         setMusic(musiclist); 
                     }).catch(err => {
@@ -173,97 +175,7 @@ import { format_text } from '../actions'
                 ):<p></p>}     
              </ShareDialog> :""} 
                 
-                    <SideNav>
-                            <Grooves>
-                                Groove
-                            </Grooves>
-
-                            <MenuBar>
-                                <RiMenu2Line/>
-                            </MenuBar>
-
-                            <HR>
-                                <hr/>
-                            </HR>
-                            <table>
-
-                                <tr>
-                                    <td>
-                                        <TabInfo>
-                                        <RiHeadphoneLine/> &nbsp;&nbsp; Your Groove
-                                        </TabInfo>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <SubContainer>
-                                           <RiSortDesc  onClick={(e)=> SortDiv(e)}/> Sort By
-                                        </SubContainer>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                       <SubContainer>
-                                        <RiDownloadCloudLine  onClick={(e) => GetDownloadHighCount(e)}/> Trending
-                                        </SubContainer>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                    <SubContainer>
-                                        <RiAlbumLine   onClick={(e) => GetAlbumPlaylist(e)}/> Album
-                                        </SubContainer>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <SubContainer>
-                                        <RiPlayList2Line onClick={(e) => SortByGenre(e)}/> Genre
-                                        </SubContainer>
-                                    </td>
-                                </tr>
-                            </table>  
-
-                            <HR>
-                                <hr/>
-                            </HR>
-
-                            <table>
-                                <tr>
-                                    <td>
-                                        <TabInfo1>
-                                            QUICK ACCESS
-                                        </TabInfo1>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <SubContainer>
-                                        <RiSpeaker2Line/> Promote Music
-                                        </SubContainer>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                    <SubContainer>
-                                        <RiUpload2Line/> Upload Music
-                                        </SubContainer>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                    <SubContainer>
-                                        <RiContactsBook2Line/> Contact Webfly
-                                        </SubContainer>
-                                    </td>
-                                </tr>
-                            
-                            </table>  
-
-
-                    </SideNav>
-                    
+                  <Sidebar/>                    
                     <MusicBanner>
                         <TopMostPart>
                                 <h1>
