@@ -175,7 +175,7 @@ export function CustomSignIn(){
 export  function updatePostlikes(count,likes,views,email,doc_id_a,doc_id_b){
     axios.post(process.env.NEXT_PUBLIC_THUMBS_REACTION_CALL, likes !== 0 ? {User:{useremail:email},UserPost:{likes:count, doc_id_a:doc_id_a, doc_id_b:doc_id_b}} : {User:{useremail:email},UserPost:{likes:0,views:count, doc_id_a:doc_id_a, doc_id_b:doc_id_b}})
     .then(res => {
-         //console.log(res);
+         console.log(res);
     }).catch(err => {
         console.log(err);
     })

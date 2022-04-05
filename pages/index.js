@@ -60,7 +60,7 @@ const  Home = ({list_got,navs}) =>{
                <Container>
                 <TopHouseContainer>
                     <div id="Online">
-                        <span>Online Marchant </span>&nbsp; <BiCreditCard id="icon" /> 
+                        <span>Online Merchant  </span>&nbsp; <BiCreditCard id="icon" /> 
                     </div>
                     <AdRunner>
                         <Marquee speed={100} gradient={false}>

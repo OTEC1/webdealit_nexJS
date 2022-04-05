@@ -63,17 +63,6 @@ const WriteUp = (props) => {
         let views = x.views
         let caller = "o"; 
         updatePostlikes(1,0,1,useremail,x.doc_id_a,x.doc_id_b);
-        sessionStorage.setItem("cloud",x.cloudinaryPub);
-        sessionStorage.setItem("date_time",x.date_time);
-        sessionStorage.setItem("doc_id_a",x.doc_id_a);
-        sessionStorage.setItem("doc_id_b",x.doc_id_b);
-        sessionStorage.setItem("cloudinaryPub",x.cloudinaryPub);
-        sessionStorage.setItem("exifData",x.exifData);
-        sessionStorage.setItem("media",x.media);
-        sessionStorage.setItem("writeup",x.writeup);
-        sessionStorage.setItem("date_time",x.date_time);
-        sessionStorage.setItem("likes",x.likes);
-        sessionStorage.setItem("title",x.title);
         window.scrollTo(0,0);
         
       }

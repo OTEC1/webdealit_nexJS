@@ -81,11 +81,13 @@ const Top = (props) => {
                           color="red"/>}>
                            {L1.map((value, index) => value.UserPost.image ?
                               <div id="Contain">
-
                                   <div id="post_author">
-
+                                       <div>
+                                          <img id="userImg" src={value.User.user_img !== "icons" ?  
+                                            value.User.user_img : "images/customSignInbackground.png"} onClick={UserPage}/>
+                                            &nbsp;<h5>{value.User.useremail}</h5> 
+                                       </div>
                                   </div>
-
                                   <div id="image_cell">
                                           <BrowserView>
                                             <CloudinaryContext cloudName="otecdealings">
@@ -103,6 +105,7 @@ const Top = (props) => {
                                  
 
                                   <div id="writeup_and_reaction">
+                                    <h5>{value.UserPost.title.length >100 ? value.UserPost.title.substring(0,100)+"..." : value.UserPost.title}</h5>
                                    <Link href={`/Read/${format_text(value.UserPost.title)}`}>
                                         <MobileView>
                                            <div id="write" onClick={(e)=>  navigates({frame:"Pictureframe",useremail:value.User.useremail, doc_id_a:value.UserPost.doc_id_a,doc_id_b:value.UserPost.doc_id_b, title: value.UserPost.title, cloudinaryPub: value.UserPost.cloudinaryPub, exifData: value.UserPost.exifData, media: value.UserPost.image, writeup: value.UserPost.writeup, date_time:value.UserPost.date_time, likes:value.UserPost.likes, views:value.UserPost.views})}>
@@ -120,8 +123,6 @@ const Top = (props) => {
                                             </div>
                                         </BrowserView>
                                    </Link>
-
-
                                     <div id="reaction">
                                       <div>
                                          {value.UserPost.views}
@@ -129,13 +130,12 @@ const Top = (props) => {
                                         <RiEyeFill/>
                                       </div>
 
-                                      <div>
+                                       <div>
                                        {value.UserPost.likes}
-                                       &nbsp;
-                                       <RiThumbUpFill/>
+                                        &nbsp;
+                                        <RiThumbUpFill/>
                                       </div>
                                     </div>
-
                                   </div>
                                </div>
                               :
@@ -174,12 +174,10 @@ const Top = (props) => {
                                             value.User.user_img : "images/customSignInbackground.png"} onClick={UserPage}/>
                                             &nbsp;&nbsp;
                                           {value.User.useremail}
-                                     </div>
+                                      </div>
                                           <BrowserView>
                                               <CloudinaryContext cloudName="otecdealings">
-                                                    <div>
-                                                      <Image  id="one1" alt={value.UserPost.title}  width="100%"  height={index === 0 ? "300" : "200"} publicId={value.UserPost.cloudinaryPub}/>
-                                                    </div>
+                                                      <Image  alt={value.UserPost.title}  width="100%"  height={index === 0 ? "300" : "200"} publicId={value.UserPost.cloudinaryPub}/>
                                               </CloudinaryContext>
                                             </BrowserView>
 
@@ -249,7 +247,7 @@ height: 50vh;
 
 const SectionTab = styled.div`
 text-align:left;
-width: 25%;
+width: 24%;
 height: 25px;
 align-items:left;
 div{
@@ -308,6 +306,30 @@ width:100%;
 height:30px;
 position:absolute;
 z-index:999;
+div{
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+position:relative;
+#userImg{
+width:30px;
+height:30px;
+padding:5px;
+margin-right:auto;
+border-radius:50%;
+}
+h5{
+margin-right:auto;
+position:absolute;
+margin-top:7px;
+margin-left:50px;
+color:#fff;
+left:0;
+top:0;
+text-shadow: 2px 2px #4180FF;
+}
+}
 }
 
 #image_cell{
@@ -332,6 +354,16 @@ height:120px;
 position:absolute;
 bottom:0;
 left:0;
+h5{
+position:absolute;
+left:0;
+top:0;
+color:#fff;
+font-size:9pt;
+padding:10px;
+font-weight:900;
+font-family: "Poppins", sans-serif;
+}
 #reaction{
 top:0;
 right:0;
@@ -433,14 +465,15 @@ width: 48%;
 margin: 2px;
 font-size:10pt;
 color:#fff;
-height:100%;
+height:60%;
 position: relative;
-
-
+text-shadow: 2px 2px #4180FF;
+div{
 img{
 border-radius:10px;
 width: 100%;
 object-fit:cover;
+}
 }
 
 

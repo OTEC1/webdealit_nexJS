@@ -49,7 +49,7 @@ const User = (props) => {
         window.scrollTo(0,0);
         if(e.User.useremail){
             props.user ? (
-                    axios.post(process.env.REACT_APP_GET_SINGLE_USE_POST,e)
+                    axios.post(process.env.NEXT_PUBLIC_GET_SINGLE_USE_POST,e)
                             .then(res => {
                                 setAllUserPost(res.data.message);
                             }).catch(err => {
@@ -112,9 +112,9 @@ const User = (props) => {
                                 v.UserPost !== undefined  ? (
                                 <Postcards>
                                     {v.UserPost.image ?
-                                    <img  src={process.env.REACT_APP_APP_S3_IMAGE_BUCKET+v.UserPost.image}/>
+                                    <img  src={process.env.NEXT_PUBLIC_APP_S3_IMAGE_BUCKET+v.UserPost.image}/>
                                     : v.UserPost.video ?
-                                    <img  src={process.env.REACT_APP_APP_S3_IMAGE_BUCKET+v.UserPost.video.replace("mp4","png")}/>
+                                    <img  src={process.env.NEXT_PUBLIC_APP_S3_IMAGE_BUCKET+v.UserPost.video.replace("mp4","png")}/>
                                     : v.UserPost.youtubeLink ?
                                     <ReactPlayer />
                                     :<p></p>

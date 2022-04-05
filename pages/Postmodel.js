@@ -16,16 +16,16 @@ import {v4 as uuid4}  from 'uuid';
 
 
  AWS.config.update({
-    accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
-    secretAccessKey: process.env.REACT_APP_SECRET_KEY
+    accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
+    secretAccessKey: process.env.NEXT_PUBLIC_SECRET_KEY
 });
 
 
 const bucket = new AWS.S3({
-    apiVersion: process.env.REACT_APP_API_VERSION,
+    apiVersion: process.env.NEXT_PUBLIC_API_VERSION,
     httpOptions: {timeout: 0},
-    params: {Bucket: process.env.REACT_APP_S3_BUCKET},
-    region: process.env.REACT_APP_REGION, 
+    params: {Bucket: process.env.NEXT_PUBLIC_S3_BUCKET},
+    region: process.env.NEXT_PUBLIC_REGION, 
 });
 
 
@@ -73,21 +73,17 @@ const Postmodel = (props) => {
                swal.fire({title:"File too large ", text:`Sorry file is ${Math.round(count)}mb.. allowed size is below 150mb`, icon:'warning'})
              else{
                  if(file.type === "image/png" || file.type === "image/jpeg" || file.type === "image/jpg"  || file.type === "image/webp"){
-                    const image = await resizeFile(file,300,300);
-                    EXIF.getData(file, function() {
-                        var exifData = EXIF.pretty(this);
-                        if (exifData) {
-                            if(EXIF.getTag(this, "Orientation") == 6)
-                                 setexifR(0)
-                            else if(EXIF.getTag(this, "Orientation") == 8)
-                                setexifR(0); 
-                        }
-                       
-                        setShareImage(file);
-                      });
-                    
-                
-  
+                        // const image = await resizeFile(file,300,300);
+                        // EXIF.getData(file, function() {
+                        //     var exifData = EXIF.pretty(this);
+                        //     if (exifData) {
+                        //         if(EXIF.getTag(this, "Orientation") == 6)
+                        //              setexifR(0)
+                        //         else if(EXIF.getTag(this, "Orientation") == 8)
+                        //             setexifR(0); 
+                       //   }
+                      //});
+                      setShareImage(file);
                 }else if(file.type === "video/mp4")
                         setVideofile(file);
             }   
@@ -175,7 +171,7 @@ const Postmodel = (props) => {
 
    
 
-        axios.post(process.env.REACT_APP_POST_END_POINT,payload)
+        axios.post(process.env.NEXT_PUBLIC_POST_END_POINT,payload)
             .then(res => { 
                 if(res.data.message == "Ok 200") {
                     Snackbar();
@@ -195,10 +191,10 @@ const Postmodel = (props) => {
 
      const SEND_TO_S3 = (args,data, section,cloud) => {
             const params = {
-                ACL: process.env.REACT_APP_READ_RULE,
+                ACL: process.env.NEXT_PUBLIC_READ_RULE,
                 Body: data,
-                Bucket: process.env.REACT_APP_S3_BUCKET,
-                Key: section === 1 ? process.env.REACT_APP_S3_PICTURE_SECTION+args.trim() : process.env.REACT_APP_S3_VIDEO_SECTION+args.toString().replace("png","mp4").trim()
+                Bucket: process.env.NEXT_PUBLIC_S3_BUCKET,
+                Key: section === 1 ? process.env.NEXT_PUBLIC_S3_PICTURE_SECTION+args.trim() : process.env.NEXT_PUBLIC_S3_VIDEO_SECTION+args.toString().replace("png","mp4").trim()
             };
     
 
@@ -209,7 +205,7 @@ const Postmodel = (props) => {
                 .on('httpDone',(e)=>{
                     swal.fire({text:"Posted", icon: 'success'})
                      if(section === 1)
-                        CLOUDINARY({url:process.env.REACT_APP_BASE_URL+params.Key,publicface:cloud});
+                        CLOUDINARY({url:process.env.NEXT_PUBLIC_BASE_URL+params.Key,publicface:cloud});
 
                 })
                 .send((err) => {
@@ -239,10 +235,10 @@ const Postmodel = (props) => {
      const SEND_TO_S3_THUMBNAIL = (args,data,dataVideo,section,cloud) => {
       
         const   params = {
-              ACL: process.env.REACT_APP_READ_RULE,
+              ACL: process.env.NEXT_PUBLIC_READ_RULE,
               Body: data,
-              Bucket: process.env.REACT_APP_S3_BUCKET,
-              Key:  process.env.REACT_APP_S3_THUMB_SECTION+args.trim()
+              Bucket: process.env.NEXT_PUBLIC_S3_BUCKET,
+              Key:  process.env.NEXT_PUBLIC_S3_THUMB_SECTION+args.trim()
           };
   
 
@@ -252,7 +248,7 @@ const Postmodel = (props) => {
               })
               .on('httpDone', (e) => {
                     SEND_TO_S3(args,dataVideo,section,cloud);
-                    CLOUDINARY({url:process.env.REACT_APP_BASE_URL+params.Key,publicface:cloud});
+                    CLOUDINARY({url:process.env.NEXT_PUBLIC_BASE_URL+params.Key,publicface:cloud});
 
 
               })
@@ -270,7 +266,7 @@ const Postmodel = (props) => {
 
 
      const CLOUDINARY = (datas) => {
-            axios.post(process.env.REACT_APP_IMG_TRANSFOMATION,datas)
+            axios.post(process.env.NEXT_PUBLIC_IMG_TRANSFOMATION,datas)
                    .then(res => {
                     console.log(res.data.message);
                     }).catch(err =>{

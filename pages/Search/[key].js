@@ -24,13 +24,13 @@ export const getStaticPaths = async () => {
       };
     const  res = await axios.request(options);
     const data = await res.data; 
-   
+
    
     const paths = data.message.map(v => {
         return { params: {key : v.Music.music_title.replace(/ /g,'+')} }
     });
 
-    console.log(paths,"HERE");
+    console.log(paths,"SONG PATH");
     return {
         paths,
         fallback: false

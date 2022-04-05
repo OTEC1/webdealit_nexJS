@@ -26,6 +26,7 @@ export const getStaticPaths =  async() => {
     const paths = data.message.map(v => {
         return { params: {key : v.UserPost.title.replace(/ /g,'+')} }
     });
+    console.log(paths,"READ PATH");
     return {
         paths,
         fallback: false
@@ -45,28 +46,39 @@ export const getStaticProps = async(context) => {
     const  res = await axios.request(options);
     const data = await res.data; 
     
-
     return {
         props: {article: data.message}
     }
 }
 
 
-const Explore = ({article,user}) => {
+
+
+
+const Explore = ({article}) => {
 const [react, setReact] = useState(false);
 const [update, setUpdate] = useState(false);
 
+
+
+
+const reset =  (email, docA, docB) =>  {
+    if(react){
+        setReact(false);  setUpdate(false);
+    }else{
+        setReact(true); updatePostlikes(1,1,0,email,docA,docB); setUpdate(true);
+    }
+} 
 
 return(
     <>
      <Header/>
        {article[0] != undefined ?
        <>
-            <Meta title={`Search result ${article[0].UserPost.title}`}
+        <Meta title={`Search result ${article[0].UserPost.title}`}
                   desc={article[0].UserPost.writeup.substring(0,100)}
                   web_url={`https://webfly.click`}  href={"/favicon.ico"} />
-
-        <Container>
+         <Container>
            <Content>
            {article[0].UserPost.image ? (
                              <div className='frame'>  
@@ -196,7 +208,7 @@ border-radius:50%;
 background: #fff;
 display: flex;
 right:0;
-margin-right:20px;
+margin-right:-40px;
 margin-top:-35px;
 text-align:left;
 justify-content:center;
