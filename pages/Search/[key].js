@@ -164,7 +164,7 @@ export const getStaticProps = async (context) => {
                             <div>
                                 
                                 <FacebookShareButton
-                                    url={`https://us-central1-grelots-ad690.cloudfunctions.net/dynamicpostRender?i=${process.env.NEXT_PUBLIC_BASE_URL+music[0].Music.music_thumbnail}&a=${music[0].Music.music_artist.toString().toUpperCase()}&t=${bucket}&d=${music.doc_id}&s=m&m=${music.email}`} 
+                                    url={`https://us-central1-grelots-ad690.cloudfunctions.net/WebflyClick/dynamicpostRender?i=${process.env.NEXT_PUBLIC_BASE_URL+music[0].Music.music_thumbnail}&a=${music[0].Music.music_artist.toString().toUpperCase()}&t=${bucket}&d=${music.doc_id}&s=m&m=${music.email}`} 
                                     quote={music[0].Music.music_artist.toUpperCase()+":  "+music[0].Music.music_title+"  Download @ webfly.click"}
                                     onClick={(e) => setShare(false)}>
                                 <FacebookIcon round size={35}/>
@@ -177,7 +177,7 @@ export const getStaticProps = async (context) => {
                                 Share via
                             </div>
                             <WhatsappShareButton
-                                url={`https://us-central1-grelots-ad690.cloudfunctions.net/dynamicpostRender?i=${process.env.NEXT_PUBLIC_BASE_URL+music[0].Music.music_thumbnail}&a=${music[0].Music.music_artist.toString().toUpperCase()}&t=${bucket}&d=${music.doc_id}&s=m&m=${music.email}`} 
+                                url={`https://us-central1-grelots-ad690.cloudfunctions.net/WebflyClick/dynamicpostRender?i=${process.env.NEXT_PUBLIC_BASE_URL+music[0].Music.music_thumbnail}&a=${music[0].Music.music_artist.toString().toUpperCase()}&t=${bucket}&d=${music.doc_id}&s=m&m=${music.email}`} 
                                 quote={music[0].Music.music_artist.toUpperCase()+":  "+music[0].Music.music_title+"  Download @ webfly.click"}
                                 onClick={(e) => setShare(false)}>
                             <WhatsappIcon round size={35}/>
@@ -190,7 +190,7 @@ export const getStaticProps = async (context) => {
                                     Share via
                                 </div>
                                 <TwitterShareButton
-                                    url={`https://us-central1-grelots-ad690.cloudfunctions.net/dynamicpostRender?i=${process.env.NEXT_PUBLIC_BASE_URL+music[0].Music.music_thumbnail}&a=${music[0].Music.music_artist.toString().toUpperCase()}&t=${bucket}&d=${music.doc_id}&s=m&m=${music.email}`}  
+                                    url={`https://us-central1-grelots-ad690.cloudfunctions.net/WebflyClick/dynamicpostRender?i=${process.env.NEXT_PUBLIC_BASE_URL+music[0].Music.music_thumbnail}&a=${music[0].Music.music_artist.toString().toUpperCase()}&t=${bucket}&d=${music.doc_id}&s=m&m=${music.email}`}  
                                     quote={music[0].Music.music_artist.toUpperCase()+":  "+music[0].Music.music_title+"  Download @ webfly.click"}
                                     onClick={(e) => setShare(false)}>
                                 <TwitterIcon round size={35}/>
