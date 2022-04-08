@@ -130,7 +130,7 @@ const WriteUp = (props) => {
           </table>   
          </Container>
       <Contain>
-      { props.writeup ? <ShareDialog showModel={showModel}  musicArtist={props.frame} musicTitle={props.title}  musicThumb={props.media.includes(".mp4") ?  process.env.NEXT_PUBLIC_S3_VIDEO_SECTION+props.media :  process.env.NEXT_PUBLIC_S3_S3_PICTURE_SECTION+props.media}   doc_id_b={props.doc_id_b} section="p"  redirectUser={redirectUser}  mail={props.User}/>  : ""}
+      { props.writeup ? <ShareDialog showModel={showModel}  musicArtist={""} musicTitle={props.title}  musicThumb={props.media.includes(".mp4") ?  process.env.NEXT_PUBLIC_S3_PICTURE_SECTION+props.media :  process.env.NEXT_PUBLIC_APP_S3_IMAGE_BUCKET+props.media}   doc_id_b={props.doc_id_b} section="p"  redirectUser={redirectUser}  mail={props.User}/>  : ""}
       </Contain>
 
             <MoreContent>
