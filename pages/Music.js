@@ -7,7 +7,6 @@ import {RiAlbumLine, RiContactsBook2Line, RiDownloadCloudLine, RiHeadphoneLine, 
 import Musicplayer from './Musicplayer'
 import  {MobileView, BrowserView}  from 'react-device-detect';
 import Load from './Load'
-import TwoTone from './TwoTone'
 import { formation } from '../actions'
 import Footer from './Footer'
 import Head from 'next/head'
@@ -87,7 +86,6 @@ export const  getStaticProps = async() => {
                         web_url={`https://webfly.click`} href={"/favicon.ico"}/>
 
                 <Header/>
-                <TwoTone/>
                 <Container>
                   <Sidebar/>
                     <MusicBanner>

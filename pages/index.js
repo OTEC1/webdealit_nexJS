@@ -2,7 +2,6 @@ import { useState ,useRef, useEffect} from 'react';
 import Link from 'next/link'
 import Header from './Header'
 import styled from 'styled-components'
-import TwoTone from './TwoTone'
 import Bottom from './Bottom';
 import Load from './Load';
 import Ad from './Ad'
@@ -44,19 +43,36 @@ const  Home = ({list_got,navs}) =>{
     useEffect(() => {
      format(list_got);
      setL3(navs);
+     <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
     },[])
 
+
+    const styles = {
+      display:"block"
+  };
     
     return(
-             <>
+           <ContainAll>
+
+              <LeftSideAd>
+                <ins className="adsbygoogle"
+                    style={styles}
+                    data-ad-client="ca-pub-8581831304889952"
+                    data-ad-slot="1691748206"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"></ins>
+              </LeftSideAd>
+
              <Meta title={"Webfly.click"}  
                    desc={`webflyblog produces content on healthy life tips, crypto market news also downlaod
                    action & romantic movies and trending music.`}
                    web_url={`https://webfly.click`} 
-                   href={"/favicon.ico"}/>
+                   href={"/favicon.ico"}>
+              </Meta>
             
              <Header/>
-              <TwoTone/>  
                <Container>
                 <TopHouseContainer>
                     <div id="Online">
@@ -90,16 +106,36 @@ const  Home = ({list_got,navs}) =>{
                    <Bottom data={L2}/>            
                 ):<p></p>
                }
-       </>  
+
+                <RightSideAd>
+
+                <ins class="adsbygoogle"
+                    style={styles}
+                    data-ad-client="ca-pub-8581831304889952"
+                    data-ad-slot="7666678350"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"></ins>
+
+                </RightSideAd>
+       </ContainAll>  
   )
  }
 
 
 
+ const ContainAll = styled.div`
+ display:flex;
+ flex-direction:column;
+ `;
+
 const Container = styled.div`
 position: relative;
-width: 100%;
+width: 80%;
 height:100vh;
+margin-left:auto;
+margin-right:auto;
+margin-top:-500px;
+
 
 ::-webkit-scrollbar {
 display: none;
@@ -113,6 +149,8 @@ width: 200px;
 text-align:center;
 }
 @media(max-width:968px){
+margin-top:0px;
+width: 100%;
 #loader{
 margin-top:50%;
 height: auto;
@@ -123,12 +161,14 @@ overflow-y: scroll;
 }
 `;
 
+
+
+
 const TopHouseContainer = styled.div`
-width: 83%;
+width: 90%;
 display: flex;
 margin-right:auto;
 margin-left:auto;
-margin-top:141px;
 height: 50px;
 
 #Online{
@@ -170,7 +210,7 @@ display: flex;
 
 
 const Contain = styled.div`
-width: 85%;
+width: 100%;
 margin:auto;
 margin-top:10px;
 
@@ -195,6 +235,29 @@ margin:10px;
 font-family: "Poppins", sans-serif;
 cursor: pointer;
 `;
+
+
+
+const LeftSideAd = styled.div`
+width:12%;
+height:100vh;
+@media(max-width:968px){
+display:none;
+}
+`;
+
+
+const RightSideAd = styled.div`
+width:12%;
+height:100vh;
+position:absolute;
+right:0;
+
+@media(max-width:968px){
+display:none;
+}
+`;
+
 
 
   export  default Home;

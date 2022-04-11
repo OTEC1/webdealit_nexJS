@@ -177,13 +177,13 @@ const Top = (props) => {
                                       </div>
                                           <BrowserView>
                                               <CloudinaryContext cloudName="otecdealings">
-                                                      <Image  alt={value.UserPost.title}  width="100%"  height={index === 0 ? "300" : "200"} publicId={value.UserPost.cloudinaryPub}/>
+                                                      <Image   loading="lazy"  alt={value.UserPost.title}  width="100%"  height={index === 0 ? "300" : "200"} publicId={value.UserPost.cloudinaryPub}/>
                                               </CloudinaryContext>
                                             </BrowserView>
 
                                             <MobileView>
                                               <CloudinaryContext cloudName="otecdealings">
-                                                      <Image alt={value.UserPost.title}   width="100%"  height="300" publicId={value.UserPost.cloudinaryPub}>
+                                                      <Image   loading="lazy" alt={value.UserPost.title}   width="100%"  height="300" publicId={value.UserPost.cloudinaryPub}>
                                                         <Transformation    angle={value.UserPost.exifData} />
                                                       </Image>
                                               </CloudinaryContext>
@@ -205,7 +205,6 @@ const Top = (props) => {
                        </TopRightinnerDiv>
                     </RightDiv>
               </TopSection>
-             
         </Container>
          </>
     )
@@ -214,13 +213,13 @@ const Top = (props) => {
 
 
 const Container = styled.div`
-width: 98%;
+width: 90%;
 text-align:center;
 display: flex;
 flex-wrap: wrap;
-box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
 padding: 10px;
-
+margin: 0 auto;
+box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
 @media(max-width:768px){
 height: 75vh;
 width: 100%;
@@ -238,7 +237,7 @@ display: flex;
 flex-wrap:wrap;
 height: 75vh;
 width: 100%;
-margin-top:0px;
+top:0;
 @media(max-width:768px){
 height: 50vh;
 }
@@ -247,7 +246,7 @@ height: 50vh;
 
 const SectionTab = styled.div`
 text-align:left;
-width: 24%;
+width: 30%;
 height: 25px;
 align-items:left;
 div{
@@ -517,9 +516,6 @@ display: flex;
 margin:2px;
 margin-top:-100px;
 `;
-
-
-
 
 
 export default Top

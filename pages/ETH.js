@@ -7,7 +7,6 @@ import {RiAlbumLine, RiContactsBook2Line, RiDownloadCloudLine, RiHeadphoneLine, 
 import Musicplayer from './Musicplayer'
 import {MobileView, BrowserView}  from 'react-device-detect';
 import Load from './Load'
-import TwoTone from './TwoTone'
 import { useRouter} from 'next/router'
 import {updatePostlikes} from '../actions'
 import Footer from './Footer'
@@ -78,7 +77,6 @@ import Footer from './Footer'
     return (
         <>
                 <Header/>
-                <TwoTone/>
                 <Container>
                     <MusicBanner>
                         <TopMostPart>

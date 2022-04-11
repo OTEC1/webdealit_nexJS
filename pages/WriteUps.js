@@ -53,6 +53,11 @@ const WriteUp = (props) => {
         }).catch(err => {
            console.log(err.message)
         });
+
+        <script>
+           (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+
     },[]);
 
     
@@ -68,6 +73,9 @@ const WriteUp = (props) => {
       }
   
 
+      const styles = {
+        display:"block"
+    };
 
     return(
         <>
@@ -101,21 +109,45 @@ const WriteUp = (props) => {
                                     <pre>{ReactHtmlParser(props.writeup.substring(0, props.writeup.indexOf("&%")))} </pre>  
                                     <Ad> 
                                     ADVERTISMENT
+                                    <ins className="adsbygoogle"
+                                        style={styles}
+                                        data-ad-client="ca-pub-8581831304889952"
+                                        data-ad-slot="4848943328"
+                                        data-ad-format="auto"
+                                        data-full-width-responsive="true"></ins>
                                     </Ad>  
 
                                     <pre>{ReactHtmlParser(props.writeup.substring(props.writeup.indexOf("&%")+2, props.writeup.indexOf("&%%")))} </pre>  
                                     <Ad>
                                       ADVERTISMENT
+                                      <ins className="adsbygoogle"
+                                             style={styles}
+                                            data-ad-client="ca-pub-8581831304889952"
+                                            data-ad-slot="7070361100"
+                                            data-ad-format="auto"
+                                            data-full-width-responsive="true"></ins>
                                     </Ad> 
                                     
                                     <pre>{ReactHtmlParser(props.writeup.substring(props.writeup.indexOf("&%%")+3, props.writeup.indexOf("&%%%")))} </pre>  
                                     <Ad>
                                         ADVERTISMENT 
+                                        <ins className="adsbygoogle"
+                                        style={styles}
+                                        data-ad-client="ca-pub-8581831304889952"
+                                        data-ad-slot="4848943328"
+                                        data-ad-format="auto"
+                                        data-full-width-responsive="true"></ins>
                                     </Ad> 
 
                                     <pre>{ReactHtmlParser(props.writeup.substring(props.writeup.indexOf("&%%%")+4, props.writeup.length))} </pre>  
                                     <Ad>
                                         ADVERTISMENT 
+                                        <ins className="adsbygoogle"
+                                             style={styles}
+                                            data-ad-client="ca-pub-8581831304889952"
+                                            data-ad-slot="7070361100"
+                                            data-ad-format="auto"
+                                            data-full-width-responsive="true"></ins>
                                     </Ad> 
                                 </div>
                             :<div>

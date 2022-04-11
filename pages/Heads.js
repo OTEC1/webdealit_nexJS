@@ -17,6 +17,8 @@ const Meta = (props) => {
         <meta name='twitter:creator' content={props.web_url}/>
         <meta httpEquiv='cache-control' content='no-cache'/>
         <link rel="icon" href={props.href} />
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8581831304889952"
+              crossOrigin="anonymous"></script>
       </Head>
      );
 }

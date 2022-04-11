@@ -8,7 +8,6 @@ import {RiAlbumLine, RiContactsBook2Line, RiDownload2Line, RiDownloadCloudLine, 
 import Musicplayer from '../Musicplayer'
 import  {MobileView, BrowserView}  from 'react-device-detect';
 import Load from '../Load'
-import TwoTone from '../TwoTone'
 import {useLocation} from 'react-router-dom'
 import Swal from 'sweetalert2'
 import { BiDisc, BiTime, BiUser } from 'react-icons/bi'
