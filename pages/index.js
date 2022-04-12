@@ -81,7 +81,7 @@ const  Home = ({list_got,navs}) =>{
                     <AdRunner>
                         <Marquee speed={100} gradient={false}>
                           {L3.map((v,i) => 
-                          <Link key={i} href={`/ETH?e=${v}`}>
+                          <Link key={i} href={`/ETH?e=${v.replace(/ /g,'+')}`}>
                             <Contains >
                             <FaSyncAlt/> &nbsp; {v} 
                             </Contains>
@@ -109,7 +109,7 @@ const  Home = ({list_got,navs}) =>{
 
                 <RightSideAd>
 
-                <ins class="adsbygoogle"
+                <ins className="adsbygoogle"
                     style={styles}
                     data-ad-client="ca-pub-8581831304889952"
                     data-ad-slot="7666678350"

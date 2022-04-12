@@ -35,19 +35,8 @@ import Footer from './Footer'
         let useremail=x.useremail;
         let views = x.views
         let caller = "o";
-        
         updatePostlikes(1,0,1,useremail,x.doc_id_a,x.doc_id_b);
-        sessionStorage.setItem("cloud",x.cloud);
-        sessionStorage.setItem("doc_id_a",x.doc_id_a);
-        sessionStorage.setItem("doc_id_b",x.doc_id_b);
-        sessionStorage.setItem("cloudinaryPub",x.cloudinaryPub);
-        sessionStorage.setItem("exifData",x.exifData);
-        sessionStorage.setItem("media",x.media);
-        sessionStorage.setItem("writeup",x.writeup);
-        sessionStorage.setItem("date_time",x.date_time);
-        sessionStorage.setItem("likes",x.likes);
-        sessionStorage.setItem("title",x.title);
-        history.push(`/Explorecontent?frame=${frame}&useremail=${x.useremail}&views=${x.views}&caller=${"o"}&doc_id_b=${x.doc_id_b}`)
+        history.push(`/Read/${x.title.replace(/ /g,'+')}`)
     
     }
 
@@ -242,11 +231,15 @@ margin-top:22px;
 
 
 @media(max-width:968px){
-height: 90%;
+height: 60%;
 text-align:center;
-
+overflow:none;
 & > *:first-of-type{
 width: 90%;
+div{
+height:80px;
+margin-top:22px;
+}
 }
 }
 `;
@@ -279,10 +272,11 @@ text-align:left;
 
 
 @media(max-width:968px){  
-width: 45%;
+width: 90%;
 height: 250px;
 margin:7px;
 overflow-x:hidden;
+overflow-y:none;
 
 img{
 height: 60%;
