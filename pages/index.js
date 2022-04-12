@@ -149,7 +149,7 @@ width: 200px;
 text-align:center;
 }
 @media(max-width:968px){
-margin-top:0px;
+margin-top:100px;
 width: 100%;
 #loader{
 margin-top:50%;
